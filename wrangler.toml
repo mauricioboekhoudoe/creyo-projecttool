@@ -15,7 +15,7 @@ run_worker_first = true
 [[d1_databases]]
 binding = "DB"
 database_name = "creyo-projecttool"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "61104e27-ec6c-4f85-89d9-99c9a74bbb6d"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
