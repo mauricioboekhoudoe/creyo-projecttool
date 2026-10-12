@@ -12,6 +12,8 @@ const MAX_FILE = 10 * 1024 * 1024;
 let S = null; // state from /api/state
 let filter = "all";
 let openItemId = null;
+let openPhaseId = null; // phase panel open (or the phase an open item was reached from)
+let pendingPatch = null; // status/owner change waiting for "Opslaan" with a reason
 let pendingFiles = []; // for the feedback form
 let checkedText = null; // text that passed "Controleren"
 
@@ -69,6 +71,19 @@ const fmtDate = (d) => {
 const pill = (map, k) => `<span class="pill ${map[k]?.[1] || "p-open"}">${esc(map[k]?.[0] || k)}</span>`;
 const filesFor = (type, id) => S.files.filter((f) => f.target_type === type && f.target_id === String(id));
 const commentsFor = (type, id) => S.comments.filter((c) => c.target_type === type && c.target_id === String(id));
+const historyFor = (id) => (S.history || []).filter((h) => h.item_id === id);
+const ORDER = { busy: 0, wait: 1, open: 2, done: 3 };
+const byUrgency = (a, b) => ORDER[a.status] - ORDER[b.status] || a.priority - b.priority || a.sort - b.sort;
+function logForPhase(pid) {
+  const ids = new Set(S.items.filter((i) => i.phase_id === pid).map((i) => i.id));
+  return S.log.filter((l) => (l.phase_ids || "").split(",").includes(pid) || (l.item_ids || "").split(",").some((x) => ids.has(x)));
+}
+function logEntryHtml(l, compact) {
+  const tags = [...(l.phase_ids ? l.phase_ids.split(",").map((x) => "fase " + x) : []), ...(l.item_ids ? l.item_ids.split(",") : [])].join(", ");
+  return `<article class="e card${compact ? " compact" : ""}"><div class="d">${esc(fmtDate(l.date))}${tags ? " · " + esc(tags) : ""}</div>
+    <h3>${esc(l.title)}</h3>
+    <dl class="kv">${l.what ? `<dt>Wat</dt><dd>${esc(l.what)}</dd>` : ""}${l.why ? `<dt>Waarom</dt><dd>${esc(l.why)}</dd>` : ""}${l.result ? `<dt>Resultaat</dt><dd>${esc(l.result)}</dd>` : ""}</dl></article>`;
+}
 function setBars(root) {
   $$("[data-w]", root).forEach((el) => (el.style.width = Math.max(0, Math.min(100, Number(el.dataset.w))) + "%"));
 }
@@ -147,7 +162,11 @@ function renderOverview() {
         const its = S.items.filter((i) => i.phase_id === p.id);
         const d = its.filter((i) => i.status === "done").length;
         const w = its.length ? Math.round((d / its.length) * 100) : 0;
-        return `<div class="card"><div class="lbl">${esc(p.id)} · ${esc(p.name)}</div><div class="big mid">${d} / ${its.length}</div><div class="bar"><i data-w="${w}"></i></div>${p.note ? `<div class="small-muted">${esc(p.note)}</div>` : ""}</div>`;
+        const busy = its.filter((i) => i.status === "busy").length;
+        return `<button class="card phase-card" type="button" data-phase="${esc(p.id)}" aria-label="Fase ${esc(p.id)}, ${esc(p.name)}: open de taken en het logboek">
+          <span class="lbl">${esc(p.id)} · ${esc(p.name)}</span><span class="big mid">${d} / ${its.length}</span><span class="bar"><i data-w="${w}"></i></span>
+          ${p.note ? `<span class="small-muted">${esc(p.note)}</span>` : ""}
+          <span class="more">${busy ? `${busy} bezig · ` : ""}Bekijk taken en logboek →</span></button>`;
       })
       .join("") || `<div class="empty">Nog geen fasen. Plak de eerste update van Claude via Beheer.</div>`;
   setBars($("#v-overzicht"));
@@ -168,7 +187,10 @@ function renderTasks() {
     .map((g) => {
       const its = S.items.filter((i) => (i.phase_id || null) === g.id && match(i));
       if (!its.length) return "";
-      return `<div class="phase-h"><h2>${g.id ? esc(g.id) + " · " : ""}${esc(g.name)}</h2><span class="small-muted">${its.length}</span></div><div class="list">${its.map(row).join("")}</div>`;
+      const head = g.id
+        ? `<button class="link-h" type="button" data-phase="${esc(g.id)}"><h2>${esc(g.id)} · ${esc(g.name)}</h2></button>`
+        : `<h2>${esc(g.name)}</h2>`;
+      return `<div class="phase-h">${head}<span class="small-muted">${its.length}</span></div><div class="list">${its.map(row).join("")}</div>`;
     })
     .join("");
   $("#tasks").innerHTML = html || `<div class="empty">Geen taken voor dit filter.</div>`;
@@ -210,24 +232,68 @@ function renderFeedback() {
 }
 
 function renderLog() {
-  $("#log").innerHTML =
-    S.log
-      .map(
-        (l) => `<article class="e card"><div class="d">${esc(fmtDate(l.date))}${l.item_ids ? " · " + esc(l.item_ids.split(",").join(", ")) : ""}</div>
-        <h3>${esc(l.title)}</h3>
-        <dl class="kv">${l.what ? `<dt>Wat</dt><dd>${esc(l.what)}</dd>` : ""}${l.why ? `<dt>Waarom</dt><dd>${esc(l.why)}</dd>` : ""}${l.result ? `<dt>Resultaat</dt><dd>${esc(l.result)}</dd>` : ""}</dl></article>`,
-      )
-      .join("") || `<div class="empty">Nog geen regels in het logboek.</div>`;
+  $("#log").innerHTML = S.log.map((l) => logEntryHtml(l, false)).join("") || `<div class="empty">Nog geen regels in het logboek.</div>`;
 }
 
 function renderDrawer() {
+  if (openItemId) return renderItemDrawer();
+  if (openPhaseId) return renderPhaseDrawer();
+}
+
+function itemRow(i) {
+  const sub = i.status === "wait" && i.waits_for ? `Wacht op: ${i.waits_for}` : i.next || i.why || "";
+  return `<button class="row" type="button" data-item="${esc(i.id)}">
+    <span class="id">${esc(i.id)}</span>
+    <span class="t"><b>${esc(i.title)}</b><small>${esc(sub)}</small></span>
+    <span class="r">${i.priority === 1 && i.status !== "done" ? '<span class="pill p-high">hoog</span>' : ""}${pill(STATUS, i.status)}${i.owner ? whoChip(i.owner) : ""}</span>
+  </button>`;
+}
+
+function renderPhaseDrawer() {
+  const p = S.phases.find((x) => x.id === openPhaseId);
+  if (!p) return closeDrawer();
+  const its = S.items.filter((i) => i.phase_id === p.id);
+  const todo = its.filter((i) => i.status !== "done").sort(byUrgency);
+  const done = its.filter((i) => i.status === "done").sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+  const pct = its.length ? Math.round((done.length / its.length) * 100) : 0;
+  const log = logForPhase(p.id);
+  $("#dr").setAttribute("aria-label", `Fase ${p.id}`);
+  $("#dr").innerHTML = `
+    <div class="dr-h"><span class="dr-id">Fase ${esc(p.id)}</span><button class="btn small" type="button" id="drClose">Sluiten</button></div>
+    <h1>${esc(p.name)}</h1>
+    ${p.note ? `<p class="sub">${esc(p.note)}</p>` : ""}
+    <div class="card tight"><div class="big mid">${done.length} van ${its.length} klaar</div><div class="bar"><i data-w="${pct}"></i></div></div>
+    <h3>Nog te doen om deze fase af te ronden (${todo.length})</h3>
+    <div class="list">${todo.map(itemRow).join("") || `<div class="empty">Alles in deze fase is klaar.</div>`}</div>
+    ${done.length ? `<details class="done-list"><summary>Al klaar (${done.length})</summary><div class="list">${done.map(itemRow).join("")}</div></details>` : ""}
+    <h3>Logboek van deze fase (${log.length})</h3>
+    <div class="log">${log.map((l) => logEntryHtml(l, true)).join("") || `<div class="empty">Nog niets in het logboek voor deze fase.</div>`}</div>`;
+  setBars($("#dr"));
+}
+
+function historyHtml(id) {
+  const list = historyFor(id);
+  if (!list.length) return `<div class="small-muted">Nog geen wijzigingen vastgelegd.</div>`;
+  return `<ol class="hist">${list
+    .map(
+      (h) => `<li>${whoChip(h.who)}<div><span class="small-muted">${esc(fmt(h.at))} · ${esc(pName(h.who))}</span>
+        <b>${esc(h.what)}</b>${h.reason ? `<p><span class="why-l">Waarom:</span> ${esc(h.reason)}</p>` : ""}</div></li>`,
+    )
+    .join("")}</ol>`;
+}
+
+function renderItemDrawer() {
   const i = S.items.find((x) => x.id === openItemId);
   if (!i) return closeDrawer();
-  const ownerOpts = [`<option value="">Niemand</option>`, ...S.people.map((p) => `<option value="${esc(p.key)}"${i.owner === p.key ? " selected" : ""}>${esc(p.name)}</option>`)].join("");
-  const statusOpts = Object.entries(STATUS).map(([k, [l]]) => `<option value="${k}"${i.status === k ? " selected" : ""}>${l}</option>`).join("");
+  const cur = { status: i.status, owner: i.owner || "", ...(pendingPatch || {}) };
+  const ownerOpts = [`<option value="">Niemand</option>`, ...S.people.map((p) => `<option value="${esc(p.key)}"${cur.owner === p.key ? " selected" : ""}>${esc(p.name)}</option>`)].join("");
+  const statusOpts = Object.entries(STATUS).map(([k, [l]]) => `<option value="${k}"${cur.status === k ? " selected" : ""}>${l}</option>`).join("");
   const phase = S.phases.find((p) => p.id === i.phase_id);
+  const back = openPhaseId ? `<button class="btn small" type="button" id="drBack">← Fase ${esc(openPhaseId)}</button>` : "";
+  $("#dr").setAttribute("aria-label", `Taak ${i.id}`);
   $("#dr").innerHTML = `
-    <div class="dr-h"><span class="dr-id">${esc(i.id)}${phase ? " · " + esc(phase.name) : ""}</span><button class="btn small" type="button" id="drClose">Sluiten</button></div>
+    <div class="dr-h"><span class="dr-id">${back || esc(i.id)}${!back && phase ? " · " + esc(phase.name) : ""}</span><button class="btn small" type="button" id="drClose">Sluiten</button></div>
+    ${back ? `<div class="dr-id">${esc(i.id)}${phase ? " · " + esc(phase.name) : ""}</div>` : ""}
     <h1>${esc(i.title)}</h1>
     <div class="meta">${pill(STATUS, i.status)}${i.priority === 1 ? '<span class="pill p-high">hoog</span>' : ""}${i.owner ? whoChip(i.owner) + `<span class="small-muted">${esc(pName(i.owner))}</span>` : ""}<span class="small-muted">bijgewerkt ${esc(fmt(i.updated_at))} door ${esc(pName(i.updated_by))}</span></div>
     <dl class="kv">${i.why ? `<dt>Waarom</dt><dd>${esc(i.why)}</dd>` : ""}${i.next ? `<dt>Volgende</dt><dd>${esc(i.next)}</dd>` : ""}${i.waits_for ? `<dt>Wacht op</dt><dd>${esc(i.waits_for)}</dd>` : ""}</dl>
@@ -235,6 +301,17 @@ function renderDrawer() {
       <div><label for="drStatus">Status</label><select id="drStatus">${statusOpts}</select></div>
       <div><label for="drOwner">Toegewezen aan</label><select id="drOwner">${ownerOpts}</select></div>
     </div>
+    ${
+      pendingPatch
+        ? `<div class="why-box">
+        <label for="drReason">Waarom verander je dit? Kort en in gewone woorden.</label>
+        <textarea id="drReason" rows="2" placeholder="Bijvoorbeeld: getest op de echte site en het werkt"></textarea>
+        <div class="act left"><button class="btn pri small" type="button" id="drSave">Opslaan</button><button class="btn small" type="button" id="drCancel">Annuleren</button></div>
+      </div>`
+        : ""
+    }
+    <h3>Wat er veranderde en waarom</h3>
+    ${historyHtml(i.id)}
     <span class="lbl-like">Screenshots</span>
     <div class="drop" id="drDrop" tabindex="0" role="button" aria-label="Screenshot toevoegen: plakken, slepen of klikken om te kiezen">Plak (Cmd+V of Ctrl+V), sleep, of klik om een screenshot te kiezen</div>
     <input type="file" id="drFile" accept="${FILE_TYPES.join(",")}" multiple hidden>
@@ -263,15 +340,30 @@ function showTab(name) {
   if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
 }
 
-function openDrawer(id) {
-  openItemId = id;
+function showDrawer() {
   renderDrawer();
   $("#ov").hidden = false;
   $("#dr").hidden = false;
-  $("#drClose").focus();
+  $("#dr").scrollTop = 0;
+  ($("#drBack") || $("#drClose")).focus();
+}
+function openDrawer(id) {
+  // An item opened from the phase panel keeps the phase, so "back" works.
+  if ($("#dr").hidden) openPhaseId = null;
+  openItemId = id;
+  pendingPatch = null;
+  showDrawer();
+}
+function openPhase(id) {
+  openItemId = null;
+  pendingPatch = null;
+  openPhaseId = id;
+  showDrawer();
 }
 function closeDrawer() {
   openItemId = null;
+  openPhaseId = null;
+  pendingPatch = null;
   $("#dr").hidden = true;
   if ($("#adm").hidden) $("#ov").hidden = true;
 }
@@ -279,6 +371,7 @@ function closeDrawer() {
 async function patchItem(id, patch) {
   try {
     await api(`/api/items/${encodeURIComponent(id)}`, { method: "PATCH", json: patch });
+    pendingPatch = null;
     say("Opgeslagen.");
     await load(true);
   } catch (e) {
@@ -530,7 +623,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const go = t.closest("[data-go]"); if (go) return showTab(go.dataset.go);
     const chip = t.closest("[data-filter]"); if (chip) { filter = chip.dataset.filter; return renderTasks(); }
     const row = t.closest("[data-item]"); if (row) return openDrawer(row.dataset.item);
+    const ph = t.closest("[data-phase]"); if (ph) return openPhase(ph.dataset.phase);
     if (t.closest("#drClose")) return closeDrawer();
+    if (t.closest("#drBack")) return openPhase(openPhaseId);
+    if (t.closest("#drCancel")) { pendingPatch = null; return renderItemDrawer(); }
+    if (t.closest("#drSave")) return patchItem(openItemId, { ...pendingPatch, reason: $("#drReason").value.trim() });
     if (t.id === "ov") { closeDrawer(); return closeAdmin(); }
     const unp = t.closest("[data-unpend]"); if (unp) { const p = pendingFiles.splice(Number(unp.dataset.unpend), 1)[0]; if (p?.url) URL.revokeObjectURL(p.url); return renderFeedback(); }
     const del = t.closest("[data-del-file]"); if (del) return deleteFile(del.dataset.delFile, del);
@@ -539,8 +636,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const rs = t.closest("[data-restore]"); if (rs) return restoreVersion(Number(rs.dataset.restore), rs);
   });
   document.addEventListener("change", (e) => {
-    if (e.target.id === "drStatus") patchItem(openItemId, { status: e.target.value });
-    if (e.target.id === "drOwner") patchItem(openItemId, { owner: e.target.value || null });
+    if (e.target.id === "drStatus" || e.target.id === "drOwner") {
+      // Nothing is saved yet: first ask why, in plain words.
+      const i = S.items.find((x) => x.id === openItemId);
+      const reasonSoFar = $("#drReason")?.value || "";
+      const next = { ...(pendingPatch || {}) };
+      if (e.target.id === "drStatus") next.status = e.target.value;
+      else next.owner = e.target.value || null;
+      if (next.status === i.status) delete next.status;
+      if ("owner" in next && (next.owner || null) === (i.owner || null)) delete next.owner;
+      pendingPatch = Object.keys(next).length ? next : null;
+      renderItemDrawer();
+      if ($("#drReason")) { $("#drReason").value = reasonSoFar; $("#drReason").focus(); }
+    }
   });
   document.addEventListener("submit", (e) => {
     const f = e.target;
@@ -549,6 +657,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") { if (!$("#adm").hidden) closeAdmin(); else if (!$("#dr").hidden) closeDrawer(); }
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches?.("[data-phase]") && e.target.tagName !== "BUTTON") { e.preventDefault(); openPhase(e.target.dataset.phase); }
   });
   document.addEventListener("paste", (e) => {
     const files = filesFromEvent(e);

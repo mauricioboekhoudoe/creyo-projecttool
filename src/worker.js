@@ -2,7 +2,7 @@
 // Every request must carry a valid Cloudflare Access login of a known person.
 // No keys or secrets ever reach the browser.
 
-import { validateUpdate, describeUpdate } from "./update.js";
+import { validateUpdate, describeUpdate, describeItemChange } from "./update.js";
 
 const MAX_FILE = 10 * 1024 * 1024;
 const FILE_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf"]);
@@ -48,6 +48,10 @@ function people(env) {
   } catch {
     return {};
   }
+}
+
+function names(env) {
+  return Object.fromEntries(Object.values(people(env)).map((p) => [p.key, p.name]));
 }
 
 function personByEmail(env, email) {
@@ -126,6 +130,9 @@ async function all(env, sql, ...args) {
 async function first(env, sql, ...args) {
   return await env.DB.prepare(sql).bind(...args).first();
 }
+function historyRow(env, itemId, at, who, what, reason) {
+  return env.DB.prepare("INSERT INTO item_history (item_id, at, who, what, reason) VALUES (?,?,?,?,?)").bind(itemId, at, who, what.slice(0, 500), (reason || "").slice(0, 500));
+}
 function change(env, who, kind, ref, summary) {
   return env.DB.prepare("INSERT INTO changes (at, who, kind, ref, summary) VALUES (?,?,?,?,?)").bind(now(), who, kind, String(ref), summary.slice(0, 300));
 }
@@ -165,8 +172,8 @@ function restoreStatements(env, snap) {
     );
   for (const l of snap.log || [])
     s.push(
-      env.DB.prepare("INSERT INTO log (id, date, title, what, why, result, item_ids, created_at, created_by) VALUES (?,?,?,?,?,?,?,?,?)").bind(
-        l.id, l.date, l.title, l.what || "", l.why || "", l.result || "", l.item_ids || "", l.created_at, l.created_by,
+      env.DB.prepare("INSERT INTO log (id, date, title, what, why, result, item_ids, phase_ids, created_at, created_by) VALUES (?,?,?,?,?,?,?,?,?,?)").bind(
+        l.id, l.date, l.title, l.what || "", l.why || "", l.result || "", l.item_ids || "", l.phase_ids || "", l.created_at, l.created_by,
       ),
     );
   for (const m of snap.meta || []) s.push(env.DB.prepare("INSERT INTO meta (key, value) VALUES (?,?)").bind(m.key, m.value));
@@ -177,7 +184,7 @@ function restoreStatements(env, snap) {
 
 async function getState(env, user) {
   const ppl = people(env);
-  const [phases, items, log, meta, feedback, comments, files] = await Promise.all([
+  const [phases, items, log, meta, feedback, comments, files, history] = await Promise.all([
     all(env, "SELECT * FROM phases ORDER BY sort, id"),
     all(env, "SELECT * FROM items ORDER BY sort, id"),
     all(env, "SELECT * FROM log ORDER BY date DESC, id DESC"),
@@ -185,6 +192,7 @@ async function getState(env, user) {
     all(env, "SELECT * FROM feedback ORDER BY id DESC"),
     all(env, "SELECT * FROM comments ORDER BY id"),
     all(env, "SELECT id, target_type, target_id, name, content_type, size, created_at, created_by FROM files ORDER BY created_at"),
+    all(env, "SELECT * FROM item_history ORDER BY id DESC"),
   ]);
   return {
     me: { key: user.key, name: user.name, admin: user.admin },
@@ -196,6 +204,7 @@ async function getState(env, user) {
     feedback,
     comments,
     files,
+    history,
   };
 }
 
@@ -219,15 +228,19 @@ async function patchItem(env, user, id, body) {
     if (item[k] !== v) set[k] = v;
   }
   if (!Object.keys(set).length) return json({ ok: true, item });
+  const reason = cleanText(body?.reason, 500);
   const cols = Object.keys(set);
-  const summary = cols.map((c) => `${c}: ${item[c] ?? "-"} -> ${set[c] ?? "-"}`).join("; ");
+  const what = describeItemChange(item, set, names(env)).join(", ");
+  const summary = cols.map((c) => `${c}: ${item[c] ?? "-"} -> ${set[c] ?? "-"}`).join("; ") + (reason ? ` | waarom: ${reason}` : "");
+  const t = now();
   await env.DB.batch([
     env.DB.prepare(`UPDATE items SET ${cols.map((c) => `${c} = ?`).join(", ")}, updated_at = ?, updated_by = ? WHERE id = ?`).bind(
       ...cols.map((c) => set[c]),
-      now(),
+      t,
       user.key,
       id,
     ),
+    historyRow(env, id, t, user.key, what || "Aangepast", reason),
     change(env, user.key, "item_update", id, summary),
   ]);
   return json({ ok: true, item: await first(env, "SELECT * FROM items WHERE id = ?", id) });
@@ -368,7 +381,7 @@ async function applyUpdate(env, user, body, dryRun) {
   if (!v.ok) return fail(400, "invalid_update", v.errors);
   const current = await snapshot(env);
   const knownFeedback = new Set((await all(env, "SELECT id FROM feedback")).map((r) => r.id));
-  const summary = describeUpdate(v.update, current, knownFeedback);
+  const summary = describeUpdate(v.update, current, knownFeedback, names(env));
   if (summary.errors.length) return fail(400, "invalid_update", summary.errors);
   if (dryRun) return json({ ok: true, summary: summary.lines });
 
@@ -405,12 +418,19 @@ async function applyUpdate(env, user, body, dryRun) {
     );
   }
   for (const id of u.remove_items) stmts.push(env.DB.prepare("DELETE FROM items WHERE id = ?").bind(id));
-  for (const l of u.log)
-    stmts.push(
-      env.DB.prepare("INSERT INTO log (date, title, what, why, result, item_ids, created_at, created_by) VALUES (?,?,?,?,?,?,?,?)").bind(
-        l.date, l.title, l.what, l.why, l.result, l.item_ids, t, by,
-      ),
-    );
+  for (const l of u.log) {
+    if (l.id === undefined) {
+      stmts.push(
+        env.DB.prepare("INSERT INTO log (date, title, what, why, result, item_ids, phase_ids, created_at, created_by) VALUES (?,?,?,?,?,?,?,?,?)").bind(
+          l.date, l.title, l.what, l.why, l.result, l.item_ids, l.phase_ids, t, by,
+        ),
+      );
+    } else {
+      const cols = ["date", "title", "what", "why", "result", "item_ids", "phase_ids"].filter((k) => l[k] !== undefined);
+      stmts.push(env.DB.prepare(`UPDATE log SET ${cols.map((c) => `${c} = ?`).join(", ")} WHERE id = ?`).bind(...cols.map((c) => l[c]), l.id));
+    }
+  }
+  for (const h of summary.history) stmts.push(historyRow(env, h.item_id, t, by, h.what, h.reason));
   for (const f of u.feedback) stmts.push(env.DB.prepare("UPDATE feedback SET status = ?, item_id = COALESCE(?, item_id) WHERE id = ?").bind(f.status, f.item_id ?? null, f.id));
   for (const c of u.comments)
     stmts.push(env.DB.prepare("INSERT INTO comments (target_type, target_id, text, created_at, created_by) VALUES (?,?,?,?,?)").bind(c.target_type, c.target_id, c.text, t, "claude"));
@@ -424,9 +444,21 @@ async function restoreVersion(env, user, id) {
   if (!v) return fail(404, "not_found");
   const snap = JSON.parse(v.snapshot);
   const current = await snapshot(env);
+  const t = now();
+  const nms = names(env);
+  const before = new Map(current.items.map((i) => [i.id, i]));
+  const hist = [];
+  for (const it of snap.items || []) {
+    const old = before.get(it.id);
+    const what = old ? describeItemChange(old, it, nms).join(", ") : "Taak teruggezet";
+    if (what) hist.push(historyRow(env, it.id, t, user.key, what, `Vorige versie teruggezet (versie ${id})`));
+    before.delete(it.id);
+  }
+  for (const gone of before.keys()) hist.push(historyRow(env, gone, t, user.key, "Taak weggehaald", `Vorige versie teruggezet (versie ${id})`));
   await env.DB.batch([
-    env.DB.prepare("INSERT INTO versions (created_at, created_by, note, snapshot) VALUES (?,?,?,?)").bind(now(), user.key, `voor terugzetten naar versie ${id}`, JSON.stringify(current)),
+    env.DB.prepare("INSERT INTO versions (created_at, created_by, note, snapshot) VALUES (?,?,?,?)").bind(t, user.key, `voor terugzetten naar versie ${id}`, JSON.stringify(current)),
     ...restoreStatements(env, snap),
+    ...hist,
     change(env, user.key, "version_restored", id, `teruggezet naar versie ${id}`),
   ]);
   return json({ ok: true });

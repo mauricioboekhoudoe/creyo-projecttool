@@ -58,6 +58,15 @@ r = await call("/api/items/F10", { method: "PATCH", as: MEMBER, json: { status: 
 assert.equal(r.status, 200); assert.equal(r.data.item.status, "busy"); assert.notEqual(r.data.item.title, "hacked");
 step("member can change status but not the title");
 
+r = await call("/api/items/F11", { method: "PATCH", as: MEMBER, json: { status: "done", reason: "Gecontroleerd, de melding komt niet meer." } });
+assert.equal(r.status, 200);
+s = await call("/api/state");
+assert.deepEqual(
+  ((h) => [h.who, h.what, h.reason])(s.data.history.find((h) => h.item_id === "F11")),
+  ["C", "Status: open → klaar", "Gecontroleerd, de melding komt niet meer."],
+);
+step("a person's change is kept in the history with their reason");
+
 r = await call("/api/items/F10", { method: "PATCH", json: { owner: "Z" } });
 assert.equal(r.status, 400); step("unknown owner is refused");
 
@@ -94,17 +103,26 @@ const upd = {
   format: "creyo-update/1",
   note: "Feedback verwerkt",
   feedback: [{ id: fbId, status: "converted", item_id: "F25" }],
-  items: [{ id: "F25", next: "Mockup maken" }, { id: "F26", phase_id: "A2", title: "Nieuwe test-taak", owner: "C" }],
+  items: [
+    { id: "F25", next: "Mockup maken" },
+    { id: "F23", status: "done", reason: "Live gezet en getest op de echte site." },
+    { id: "F26", phase_id: "A2", title: "Nieuwe test-taak", owner: "C", why: "Om te testen." },
+  ],
   comments: [{ target_type: "feedback", target_id: String(fbId), text: "Omgezet naar F25." }],
-  log: [{ date: "2026-10-12", title: "Test", what: "w", why: "y", result: "r", item_ids: ["F25"] }],
+  log: [{ date: "2026-10-12", title: "Test", what: "w", why: "y", result: "r", item_ids: ["F25"] }, { id: 1, phase_ids: ["A"] }],
 };
+r = await call("/api/admin/check", { method: "POST", json: { payload: { format: "creyo-update/1", items: [{ id: "F23", status: "done" }] } } });
+assert.equal(r.status, 400); assert.ok(r.data.detail.some((e) => e.includes("reason"))); step("status change from Claude without a reason is refused");
 r = await call("/api/admin/apply", { method: "POST", json: { payload: upd } });
 assert.equal(r.status, 200, JSON.stringify(r.data));
 s = await call("/api/state");
 assert.equal(s.data.feedback[0].status, "converted"); assert.ok(s.data.items.find((i) => i.id === "F26"));
 assert.equal(s.data.items.find((i) => i.id === "F25").next, "Mockup maken");
 assert.ok(s.data.comments.some((c) => c.created_by === "claude"));
-step("update from Claude applied: feedback converted, item added, comment and log");
+const h23 = s.data.history.find((h) => h.item_id === "F23");
+assert.equal(h23.reason, "Live gezet en getest op de echte site."); assert.ok(h23.what.startsWith("Status:")); assert.ok(h23.who.startsWith("claude"));
+assert.equal(s.data.log.find((l) => l.id === 1).phase_ids, "A");
+step("update from Claude applied: feedback converted, item added, comment, log, history with reason, log tagged with a phase");
 
 r = await call("/api/admin/apply", { method: "POST", json: { payload: { format: "creyo-update/1", items: [{ id: "F27" }] } } });
 assert.equal(r.status, 400); step("invalid update refused, nothing changed");

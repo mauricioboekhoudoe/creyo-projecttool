@@ -46,10 +46,41 @@ test("describes changes to existing items in Dutch", () => {
     log: [],
     meta: [],
   };
-  const v = validateUpdate({ format: "creyo-update/1", items: [{ id: "F10", status: "done", owner: "C" }] }, { people });
-  const d = describeUpdate(v.update, current, new Set());
+  const v = validateUpdate({ format: "creyo-update/1", items: [{ id: "F10", status: "done", owner: "C", reason: "Getest op de echte site, het werkt." }] }, { people });
+  const d = describeUpdate(v.update, current, new Set(), { M: "Mauricio", C: "Charona" });
   assert.deepEqual(d.errors, []);
-  assert.equal(d.lines[0], "F10: status open → klaar, eigenaar M → C");
+  assert.equal(d.lines[0], "F10: Status: open → klaar, Toegewezen aan: Mauricio → Charona. Waarom: Getest op de echte site, het werkt.");
+  assert.deepEqual(d.history, [{ item_id: "F10", what: "Status: open → klaar, Toegewezen aan: Mauricio → Charona", reason: "Getest op de echte site, het werkt." }]);
+});
+
+test("a status change without a plain-language reason is refused", () => {
+  const current = { phases: [{ id: "A", name: "x" }], items: [{ id: "F10", phase_id: "A", title: "t", owner: "M", status: "open", priority: 1, why: "", next: "", waits_for: "" }], log: [], meta: [] };
+  const v = validateUpdate({ format: "creyo-update/1", items: [{ id: "F10", status: "done" }] }, { people });
+  const d = describeUpdate(v.update, current, new Set());
+  assert.ok(d.errors.some((e) => e.includes("reason")));
+  const v2 = validateUpdate({ format: "creyo-update/1", items: [{ id: "F10", next: "Iets anders" }] }, { people });
+  assert.deepEqual(describeUpdate(v2.update, current, new Set()).errors, []);
+});
+
+test("a new item needs a plain-language why", () => {
+  const v = validateUpdate({ format: "creyo-update/1", items: [{ id: "F99", title: "Nieuw" }] }, { people });
+  const d = describeUpdate(v.update, empty, new Set());
+  assert.ok(d.errors.some((e) => e.includes('"why"')));
+});
+
+test("log entries can carry phases and be corrected by id", () => {
+  const current = { phases: [{ id: "A", name: "x" }], items: [], log: [{ id: 3, title: "Oud" }], meta: [] };
+  const v = validateUpdate(
+    { format: "creyo-update/1", log: [{ id: 3, phase_ids: ["A"] }, { date: "2026-10-12", title: "Nieuw", phase_ids: ["A"] }, { id: 9, title: "x" }, { date: "2026-10-12", title: "y", phase_ids: ["Q"] }] },
+    { people },
+  );
+  assert.equal(v.ok, true, JSON.stringify(v.errors));
+  assert.equal(v.update.log[0].phase_ids, "A");
+  assert.equal(v.update.log[0].title, undefined);
+  const d = describeUpdate(v.update, current, new Set());
+  assert.ok(d.lines.some((l) => l.includes("regel 3 bijgewerkt")));
+  assert.ok(d.errors.some((e) => e.includes("regel 9")));
+  assert.ok(d.errors.some((e) => e.includes("fase Q")));
 });
 
 test("feedback and comments must point to something that exists", () => {

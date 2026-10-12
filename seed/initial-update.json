@@ -1,928 +1,928 @@
 {
-  "format": "creyo-update/1",
-  "note": "Startinhoud: het projectplan van 12 oktober",
-  "meta": {
-    "headline": "Get Creyo, waar we staan",
-    "goal": "Pro+ is live en de koopflow is bewezen. Nu: eerlijke cijfers op dashboard en mediakit (F21 tot F25) en de afgewezen InsightIQ-webhooks (F10), daarna robuustheid (fase R). Merken en partners pas als F10 en R1 tot R3 staan."
+ "format": "creyo-update/1",
+ "note": "Startinhoud: het projectplan van 12 oktober",
+ "meta": {
+  "headline": "Get Creyo, waar we staan",
+  "goal": "Pro+ is live en de koopflow is bewezen. Nu: eerlijke cijfers op dashboard en mediakit (F21 tot F25) en de afgewezen InsightIQ-webhooks (F10), daarna robuustheid (fase R). Merken en partners pas als F10 en R1 tot R3 staan."
+ },
+ "phases": [
+  {
+   "id": "A",
+   "name": "Pro+ live",
+   "sort": 1,
+   "note": ""
   },
-  "phases": [
-    {
-      "id": "A",
-      "name": "Pro+ live",
-      "sort": 1,
-      "note": ""
-    },
-    {
-      "id": "A2",
-      "name": "Bevindingen uit de Pro+-test",
-      "sort": 2,
-      "note": ""
-    },
-    {
-      "id": "M",
-      "name": "Monitoring en advies",
-      "sort": 3,
-      "note": "Na F10, eerst een mockup"
-    },
-    {
-      "id": "R",
-      "name": "Robuustheid",
-      "sort": 4,
-      "note": "Start na F10"
-    },
-    {
-      "id": "B",
-      "name": "Merkenproduct",
-      "sort": 5,
-      "note": "Bouwen pas na F10 en R1 tot R3"
-    },
-    {
-      "id": "C",
-      "name": "Partnerprogramma",
-      "sort": 6,
-      "note": "Bouwen pas na F10 en R1 tot R3"
-    },
-    {
-      "id": "D",
-      "name": "Technisch onderhoud",
-      "sort": 7,
-      "note": ""
-    },
-    {
-      "id": "E",
-      "name": "Nazorg",
-      "sort": 8,
-      "note": ""
-    }
-  ],
-  "items": [
-    {
-      "id": "A1",
-      "phase_id": "A",
-      "title": "Pro+-pakket deel 1: verified data in de export, opruimen na 30 dagen, bewaking",
-      "owner": "M",
-      "status": "done",
-      "priority": 2,
-      "why": "Basis voor Pro+.",
-      "next": "",
-      "waits_for": "",
-      "sort": 1
-    },
-    {
-      "id": "A2",
-      "phase_id": "A",
-      "title": "Pro+-pakket deel 2: InsightIQ-kaart en foutmeldingen in het command center",
-      "owner": "M",
-      "status": "done",
-      "priority": 2,
-      "why": "Basis voor Pro+.",
-      "next": "",
-      "waits_for": "",
-      "sort": 2
-    },
-    {
-      "id": "A3",
-      "phase_id": "A",
-      "title": "Mail aan de creator bij een verlopen koppeling",
-      "owner": "M",
-      "status": "done",
-      "priority": 2,
-      "why": "Creator weet wanneer opnieuw koppelen nodig is.",
-      "next": "",
-      "waits_for": "",
-      "sort": 3
-    },
-    {
-      "id": "A4",
-      "phase_id": "A",
-      "title": "Verwerkersovereenkomst met InsightIQ opvragen, nalezen en tekenen",
-      "owner": "C",
-      "status": "wait",
-      "priority": 2,
-      "why": "Nodig voor de AVG: InsightIQ verwerkt gegevens van onze klanten.",
-      "next": "Mail aan InsightIQ versturen.",
-      "waits_for": "Antwoord van InsightIQ",
-      "sort": 4
-    },
-    {
-      "id": "A5",
-      "phase_id": "A",
-      "title": "Juridische review van de Engelse teksten",
-      "owner": "C",
-      "status": "open",
-      "priority": 2,
-      "why": "Phyllo/InsightIQ en Klaviyo als verwerker, en de bewaartermijnen, moeten kloppen in de privacytekst.",
-      "next": "Review plannen.",
-      "waits_for": "",
-      "sort": 5
-    },
-    {
-      "id": "A6",
-      "phase_id": "A",
-      "title": "Appnaam in het koppelvenster: Sample App wordt Get Creyo",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Klanten moeten zien dat ze aan Get Creyo toestemming geven.",
-      "next": "Nagaan of dit al klaar is: het venster toont al het logo.",
-      "waits_for": "",
-      "sort": 6
-    },
-    {
-      "id": "A7",
-      "phase_id": "A",
-      "title": "Pro+ klaarzetten: productiesleutels, webhook, Stripe-prijs, upgrade-knop",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Voorwaarde om Pro+ te verkopen.",
-      "next": "",
-      "waits_for": "",
-      "sort": 7
-    },
-    {
-      "id": "A8",
-      "phase_id": "A",
-      "title": "Pro+ aanzetten",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Live, verkoop staat aan; koopflowtest afgerond 11 okt.",
-      "next": "",
-      "waits_for": "",
-      "sort": 8
-    },
-    {
-      "id": "F1",
-      "phase_id": "A2",
-      "title": "Koppelvenster geblokkeerd voor TikTok, Instagram en Facebook",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "De beveiligingsregel van andere pagina's bleef gelden na een paginawissel.",
-      "next": "Klaar, live en getest 10 okt.",
-      "waits_for": "",
-      "sort": 9
-    },
-    {
-      "id": "F2",
-      "phase_id": "A2",
-      "title": "Instagram toonde geen verified data meer na opnieuw koppelen",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Ontkoppelen wiste de data; InsightIQ stuurt bij opnieuw koppelen geen data opnieuw.",
-      "next": "Klaar: bij elke koppeling halen we de data zelf op (5134a1f).",
-      "waits_for": "",
-      "sort": 10
-    },
-    {
-      "id": "F3",
-      "phase_id": "A2",
-      "title": "TikTok: shares leeg en lifetime likes niet aangesloten",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Shares: waarschijnlijk te weinig posts binnen (2). Lifetime likes is nooit aangesloten.",
-      "next": "Meenemen bij F25.",
-      "waits_for": "",
-      "sort": 11
-    },
-    {
-      "id": "F4",
-      "phase_id": "A2",
-      "title": "Facebook-filter toont Pro+ en doet niets bij klikken",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Facebook heeft geen gemeten laag; het filter kent alleen gemeten platforms.",
-      "next": "Meenemen in het dashboardvoorstel (F21).",
-      "waits_for": "",
-      "sort": 12
-    },
-    {
-      "id": "F5",
-      "phase_id": "A2",
-      "title": "Label Pro+ in development naast de naam",
-      "owner": "M",
-      "status": "done",
-      "priority": 3,
-      "why": "Label stond er nog terwijl Pro+ verkocht wordt.",
-      "next": "Klaar, live 10 okt.",
-      "waits_for": "",
-      "sort": 13
-    },
-    {
-      "id": "F6",
-      "phase_id": "A2",
-      "title": "Een Pro+-klant moet zijn accounts twee keer koppelen: verified en gemeten",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Twee losse koppelingen. Voorstel: na verified koppelen hetzelfde account automatisch laten meten.",
-      "next": "Bekijken met Charona's account.",
-      "waits_for": "Besluit Mauricio en Charona",
-      "sort": 14
-    },
-    {
-      "id": "F7",
-      "phase_id": "A2",
-      "title": "Betaling van 14,90 op 7 okt op een opgezegd Pro-abonnement van Charona",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Oorzaak nog onbekend; mogelijk terugbetalen.",
-      "next": "Tijdlijn van het abonnement en de webhook-meldingen in Stripe bekijken.",
-      "waits_for": "",
-      "sort": 15
-    },
-    {
-      "id": "F8",
-      "phase_id": "A2",
-      "title": "Prijspagina met Pro+-koopknop en upgrade-venster",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Pro+ verkoopbaar maken.",
-      "next": "Klaar, koopflowtest afgerond 11 okt.",
-      "waits_for": "",
-      "sort": 16
-    },
-    {
-      "id": "F9",
-      "phase_id": "A2",
-      "title": "Upgrade-venster gaf een 500-fout",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Testabonnement uit testmodus en geen foutafhandeling.",
-      "next": "Klaar: nette melding en regel in de error log (e062b24).",
-      "waits_for": "",
-      "sort": 17
-    },
-    {
-      "id": "F10",
-      "phase_id": "A2",
-      "title": "InsightIQ-webhooks afgewezen op de handtekening (13 keer sinds 9 okt)",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "Updates van geverifieerde data kunnen verloren gaan. De ophaalactie bij het koppelen kan dit verbergen.",
-      "next": "Onderzoek: welke webhooks staan bij InsightIQ en met welke sleutel controleren we.",
-      "waits_for": "",
-      "sort": 18
-    },
-    {
-      "id": "F11",
-      "phase_id": "A2",
-      "title": "Inlogwaarschuwingen no_code en exchange_failed op 10 okt",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Verlopen inloglink of een echt inlogprobleem.",
-      "next": "Onderzoeken na F10.",
-      "waits_for": "",
-      "sort": 19
-    },
-    {
-      "id": "F12",
-      "phase_id": "A2",
-      "title": "Ontbrekend label in het command center",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Twee waarschuwingen missing_label op 10 okt.",
-      "next": "Klein, later.",
-      "waits_for": "",
-      "sort": 20
-    },
-    {
-      "id": "F13",
-      "phase_id": "A2",
-      "title": "Productie gebruikt een cache-bucket met staging in de naam",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Mogelijk delen review en productie een cache. Timing bij F19 bleek geen cachefout.",
-      "next": "Uitzoeken met bewijs.",
-      "waits_for": "",
-      "sort": 21
-    },
-    {
-      "id": "F14",
-      "phase_id": "A2",
-      "title": "Free-account: filter Instagram lijkt aanklikbaar maar is het niet",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Bewuste beperking voor Free, maar zonder slot of Pro-label.",
-      "next": "Meenemen in het dashboardvoorstel (F21).",
-      "waits_for": "",
-      "sort": 22
-    },
-    {
-      "id": "F15",
-      "phase_id": "A2",
-      "title": "Stripe Checkout toont Basic abonnement onder Pro",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Nederlandse omschrijving en verkeerde plannaam in Stripe.",
-      "next": "Productomschrijving in Stripe aanpassen, ook Pro+ nakijken.",
-      "waits_for": "",
-      "sort": 23
-    },
-    {
-      "id": "F16",
-      "phase_id": "A2",
-      "title": "Geen iDEAL in de checkout",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "Veel Nederlandse creators hebben geen creditcard.",
-      "next": "Nagaan of iDEAL met SEPA-incasso aan kan voor abonnementen; samen met F17.",
-      "waits_for": "",
-      "sort": 24
-    },
-    {
-      "id": "F17",
-      "phase_id": "A2",
-      "title": "Btw: Stripe berekent geen btw en de factuur toont geen btw-nummer of KvK",
-      "owner": "C",
-      "status": "wait",
-      "priority": 2,
-      "why": "De prijzen zijn inclusief btw. Advies: Stripe Tax Basic.",
-      "next": "Daarna btw-nummer, KvK en Stripe Tax inrichten, samen met F16.",
-      "waits_for": "Bevestiging van Boekhoudoe over KOR, OSS en de drempel",
-      "sort": 25
-    },
-    {
-      "id": "F18",
-      "phase_id": "A2",
-      "title": "Upgrade naar Pro+ faalde door een prijs-ID uit testmodus",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "De Pro+-prijs in Cloudflare kwam uit testmodus.",
-      "next": "Klaar: alle 7 prijzen OK en bewaakt in het command center.",
-      "waits_for": "",
-      "sort": 26
-    },
-    {
-      "id": "F19",
-      "phase_id": "A2",
-      "title": "Na de upgrade toonde het dashboard nog Pro",
-      "owner": "M",
-      "status": "done",
-      "priority": 2,
-      "why": "Het dashboard wachtte op de webhook.",
-      "next": "Klaar: direct vastleggen en welkomstvenster (90c282d).",
-      "waits_for": "",
-      "sort": 27
-    },
-    {
-      "id": "F20",
-      "phase_id": "A2",
-      "title": "Pro+ zonder betalen mogelijk bij een openstaande 3D Secure-betaling",
-      "owner": "M",
-      "status": "done",
-      "priority": 1,
-      "why": "Stripe zette de prijs al om; de webhook gaf dan Pro+.",
-      "next": "Klaar: upgrade pas na betaling (dbc3288).",
-      "waits_for": "",
-      "sort": 28
-    },
-    {
-      "id": "F21",
-      "phase_id": "A2",
-      "title": "Dashboard: zes koppelknoppen, teksten door elkaar en voorbeeldcijfers bij echte klanten",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Echte Pro+-klanten zien verzonnen cijfers. In strijd met de kwaliteitslat.",
-      "next": "Voorstel met mockup: een koppelroute via de Verified-pagina en eerlijke lege vakken.",
-      "waits_for": "",
-      "sort": 29
-    },
-    {
-      "id": "F22",
-      "phase_id": "A2",
-      "title": "Pro+-label is grijs zonder vinkje, Pro is geel met vinkje",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Bewuste keuze uit de tijd dat Pro+ nog niet te koop was.",
-      "next": "Opnieuw beslissen in de mockup van F21.",
-      "waits_for": "",
-      "sort": 30
-    },
-    {
-      "id": "F23",
-      "phase_id": "A2",
-      "title": "Vóór de aankoop melden dat Instagram een creator- of business-account nodig heeft",
-      "owner": "M",
-      "status": "busy",
-      "priority": 1,
-      "why": "Met een persoonlijk account kun je Pro+ kopen maar niets koppelen.",
-      "next": "Bij Claude Code; daarna release met de kwaliteitslat en D7.",
-      "waits_for": "",
-      "sort": 31
-    },
-    {
-      "id": "F24",
-      "phase_id": "A2",
-      "title": "Koppelvenster toont twaalf platforms, waaronder X, Twitch en Instagram drie keer",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Klanten kunnen iets koppelen dat we niet tonen.",
-      "next": "Nagaan in de code en de InsightIQ-instellingen; meenemen bij F21.",
-      "waits_for": "",
-      "sort": 32
-    },
-    {
-      "id": "F25",
-      "phase_id": "A2",
-      "title": "Saves, shares en bereik per post tonen op dashboard en mediakit",
-      "owner": "M",
-      "status": "busy",
-      "priority": 1,
-      "why": "Feedback Charona 12 okt. Pro+ belooft Real reach per post en Saves and shares.",
-      "next": "Onderzoek bij Claude Code: welke cijfers per post komen binnen. Daarna mockup.",
-      "waits_for": "",
-      "sort": 33
-    },
-    {
-      "id": "M0",
-      "phase_id": "M",
-      "title": "Mockup van het issue-overzicht en het detailvenster",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "De error log toont losse regels zonder uitleg; F10 zagen we pas een dag later.",
-      "next": "",
-      "waits_for": "Koopflowtest en F10",
-      "sort": 34
-    },
-    {
-      "id": "M1",
-      "phase_id": "M",
-      "title": "Issues in plaats van regels, met uitleg en een kant-en-klare prompt per foutcode",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Sneller zien wat er mis is en wat je moet doen.",
-      "next": "",
-      "waits_for": "M0 goedgekeurd",
-      "sort": 35
-    },
-    {
-      "id": "M2",
-      "phase_id": "M",
-      "title": "Signalen: een error direct per mail, een dagelijkse samenvatting",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Problemen komen bij ons binnen voordat een klant ze meldt.",
-      "next": "",
-      "waits_for": "M1",
-      "sort": 36
-    },
-    {
-      "id": "M3",
-      "phase_id": "M",
-      "title": "Adviserende agent op het command center",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Dagelijkse duiding van open issues.",
-      "next": "",
-      "waits_for": "M1, M2",
-      "sort": 37
-    },
-    {
-      "id": "R1",
-      "phase_id": "R",
-      "title": "Instellingen automatisch controleren: alle sleutels en ID's, live en test nooit door elkaar",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "Een test-ID in productie blokkeerde Pro+ (F18).",
-      "next": "",
-      "waits_for": "F10",
-      "sort": 38
-    },
-    {
-      "id": "R2",
-      "phase_id": "R",
-      "title": "Geldstromen automatisch testen vóór elke release met Stripe-testkaarten",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "De koopflow was nooit van begin tot eind getest; F20 had zo nooit live gestaan.",
-      "next": "",
-      "waits_for": "R1",
-      "sort": 39
-    },
-    {
-      "id": "R3",
-      "phase_id": "R",
-      "title": "Nachtelijke vergelijking van Stripe, InsightIQ en onze database",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "Vangt elke gemiste webhook op.",
-      "next": "",
-      "waits_for": "R1",
-      "sort": 40
-    },
-    {
-      "id": "R4",
-      "phase_id": "R",
-      "title": "Waarschuwen in plaats van alleen loggen (zelfde als M2)",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Zelfde doel als M2.",
-      "next": "",
-      "waits_for": "M1",
-      "sort": 41
-    },
-    {
-      "id": "B1",
-      "phase_id": "B",
-      "title": "Gesprekshandleiding met de drie vragen en een vaste manier van vastleggen",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Voorbereiding op de gesprekken met merken.",
-      "next": "Kan nu.",
-      "waits_for": "",
-      "sort": 42
-    },
-    {
-      "id": "B2",
-      "phase_id": "B",
-      "title": "Vijf gesprekken met merken die we al kennen",
-      "owner": "C",
-      "status": "open",
-      "priority": 2,
-      "why": "Bewijs ophalen voordat we het merkenproduct bouwen.",
-      "next": "",
-      "waits_for": "B1",
-      "sort": 43
-    },
-    {
-      "id": "B3",
-      "phase_id": "B",
-      "title": "Go of no-go op basis van de antwoorden",
-      "owner": "M",
-      "status": "wait",
-      "priority": 2,
-      "why": "Samen beslissen.",
-      "next": "",
-      "waits_for": "B2",
-      "sort": 44
-    },
-    {
-      "id": "B4",
-      "phase_id": "B",
-      "title": "Mockup van stap 1: de knop op de kit en de mail aan de creator",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Merken vragen creators om verificatie.",
-      "next": "Kan nu.",
-      "waits_for": "",
-      "sort": 45
-    },
-    {
-      "id": "B5",
-      "phase_id": "B",
-      "title": "Stap 1 bouwen: merken vragen creators om verificatie",
-      "owner": "M",
-      "status": "wait",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "B3 (go), F10, R1 tot R3",
-      "sort": 46
-    },
-    {
-      "id": "B6",
-      "phase_id": "B",
-      "title": "Stap 2: de merkomgeving (shortlist, vergelijken, doelgroepmatch)",
-      "owner": "M",
-      "status": "wait",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "Resultaat van stap 1",
-      "sort": 47
-    },
-    {
-      "id": "B7",
-      "phase_id": "B",
-      "title": "Stap 3: campagnerapport en omgeving voor bureaus",
-      "owner": "M",
-      "status": "wait",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "Stap 2",
-      "sort": 48
-    },
-    {
-      "id": "C1",
-      "phase_id": "C",
-      "title": "Akkoord op het partnervoorstel (10% korting, 20% commissie, 12 maanden)",
-      "owner": "C",
-      "status": "open",
-      "priority": 2,
-      "why": "Startpunt voor het partnerprogramma.",
-      "next": "",
-      "waits_for": "",
-      "sort": 49
-    },
-    {
-      "id": "C2",
-      "phase_id": "C",
-      "title": "Twee of drie eerste partners kiezen",
-      "owner": "C",
-      "status": "wait",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "C1",
-      "sort": 50
-    },
-    {
-      "id": "C3",
-      "phase_id": "C",
-      "title": "Eigen kortingscode per partner in Stripe",
-      "owner": "M",
-      "status": "wait",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "C2",
-      "sort": 51
-    },
-    {
-      "id": "C4",
-      "phase_id": "C",
-      "title": "Maandelijkse uitbetaling, facturen en btw inrichten met Boekhoudoe",
-      "owner": "C",
-      "status": "wait",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "C1",
-      "sort": 52
-    },
-    {
-      "id": "C5",
-      "phase_id": "C",
-      "title": "Proef van drie maanden, daarna stoppen, doorgaan of opschalen",
-      "owner": "M",
-      "status": "wait",
-      "priority": 3,
-      "why": "Samen beslissen.",
-      "next": "",
-      "waits_for": "C3, C4",
-      "sort": 53
-    },
-    {
-      "id": "D1",
-      "phase_id": "D",
-      "title": "Grote Dependabot-updates, één per keer: TypeScript 7, vitest 5, eslint 10",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "Bijblijven zonder grote sprongen.",
-      "next": "",
-      "waits_for": "",
-      "sort": 54
-    },
-    {
-      "id": "D2",
-      "phase_id": "D",
-      "title": "Platformfilter op de kit sneller maken",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 55
-    },
-    {
-      "id": "D3",
-      "phase_id": "D",
-      "title": "Omschrijving van de source-map-js-fix in DECISIONS.md rechtzetten",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 56
-    },
-    {
-      "id": "D4",
-      "phase_id": "D",
-      "title": "De vijf hoge meldingen uit npm audit uitzoeken",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 57
-    },
-    {
-      "id": "D5",
-      "phase_id": "D",
-      "title": "Telling van de staging-limiet op de InsightIQ-kaart gelijktrekken",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 58
-    },
-    {
-      "id": "D7",
-      "phase_id": "D",
-      "title": "Instabiele test: klok vastzetten in de webhook-test",
-      "owner": "M",
-      "status": "busy",
-      "priority": 2,
-      "why": "Faalde soms op 1 milliseconde; ondermijnt het vertrouwen in de controle.",
-      "next": "Bij Claude Code, samen met F23.",
-      "waits_for": "",
-      "sort": 59
-    },
-    {
-      "id": "E1",
-      "phase_id": "E",
-      "title": "Hersteloefening: de database terugzetten volgens het runbook",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "Weten dat een back-up echt werkt.",
-      "next": "",
-      "waits_for": "",
-      "sort": 60
-    },
-    {
-      "id": "E2",
-      "phase_id": "E",
-      "title": "Beveiligingsaudit: toegang tussen klanten, opslag, sleutels in git, aanvalstest, headers",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 61
-    },
-    {
-      "id": "E3",
-      "phase_id": "E",
-      "title": "Tweestapsverificatie op alle beheeraccounts",
-      "owner": "M",
-      "status": "open",
-      "priority": 1,
-      "why": "Supabase, Stripe, Cloudflare, GitHub, Apify, InsightIQ, Resend, Klaviyo. Mauricio en Charona.",
-      "next": "",
-      "waits_for": "",
-      "sort": 62
-    },
-    {
-      "id": "E4",
-      "phase_id": "E",
-      "title": "Bescherming op de tabel users uitbreiden met het plan-veld, plus een test",
-      "owner": "M",
-      "status": "open",
-      "priority": 2,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 63
-    },
-    {
-      "id": "E5",
-      "phase_id": "E",
-      "title": "Statuspagina, browsertests, RLS voor het merkenproduct, documentatieronde, middleware naar proxy",
-      "owner": "M",
-      "status": "open",
-      "priority": 3,
-      "why": "",
-      "next": "",
-      "waits_for": "",
-      "sort": 64
-    }
-  ],
-  "log": [
-    {
-      "date": "2026-09-29",
-      "title": "Verified laag live",
-      "what": "Doelgroepdata in dashboard en mediakit, met bewezen isolatie tussen klanten.",
-      "why": "De kern van Pro+.",
-      "result": "Live."
-    },
-    {
-      "date": "2026-09-30",
-      "title": "Mediakit ronde 1 en 2 en reparaties",
-      "what": "Elk getal hooguit twee keer, geen gecombineerd percentage, top posts en verified per platform. Engagement rate en thumbnails gerepareerd.",
-      "why": "Eerlijke en leesbare kit.",
-      "result": "Live."
-    },
-    {
-      "date": "2026-10-02",
-      "title": "Dashboard per platform en Charona op Pro+",
-      "what": "Engagement per platform op het dashboard. Charona kreeg gratis Pro+ zonder abonnement.",
-      "why": "Demo's voor merken.",
-      "result": "Live."
-    },
-    {
-      "date": "2026-10-07",
-      "title": "Pro+-pakket en beveiligingsupdates",
-      "what": "Verified data in de export, opruimen na 30 dagen, InsightIQ-kaart, mail bij verlopen koppeling. Next.js en andere pakketten gepatcht.",
-      "why": "Pro+ klaarmaken en bekende lekken dichten.",
-      "result": "Live.",
-      "item_ids": [
-        "A1",
-        "A2",
-        "A3"
-      ]
-    },
-    {
-      "date": "2026-10-09",
-      "title": "Pro+ live",
-      "what": "InsightIQ-productiesleutels, verkoop aangezet.",
-      "why": "Charona wil Pro+ gaan verkopen en demonstreren.",
-      "result": "Pro+ te koop.",
-      "item_ids": [
-        "A7",
-        "A8"
-      ]
-    },
-    {
-      "date": "2026-10-10",
-      "title": "Koppelen hersteld",
-      "what": "Het koppelvenster werd geblokkeerd en opnieuw koppelen gaf geen data. Beide opgelost, data van Charona teruggehaald.",
-      "why": "Charona kon Instagram en TikTok niet koppelen.",
-      "result": "Instagram weer 1 profiel, 1 doelgroep, 37 posts.",
-      "item_ids": [
-        "F1",
-        "F2"
-      ]
-    },
-    {
-      "date": "2026-10-10",
-      "title": "Kwaliteitslat vastgesteld",
-      "what": "Acht punten waar elke wijziging aan voldoet, ook vastgelegd voor Claude Code.",
-      "why": "State of the art, niets minder.",
-      "result": "Claude Code meldt nu zelf wat het buiten de opdracht tegenkomt."
-    },
-    {
-      "date": "2026-10-10",
-      "title": "Upgrade naar Pro+ werkend en veilig",
-      "what": "Testprijs in productie vervangen, prijzen worden bewaakt, upgrade direct vastgelegd met welkomstvenster, Pro+ pas na betaling.",
-      "why": "Niemand kon upgraden, en er was een manier om Pro+ zonder betalen te krijgen.",
-      "result": "Live: alle 7 prijzen OK.",
-      "item_ids": [
-        "F18",
-        "F19",
-        "F20"
-      ]
-    },
-    {
-      "date": "2026-10-11",
-      "title": "Koopflowtest afgerond",
-      "what": "Met een testaccount: Pro gekocht, geüpgraded naar Pro+, opgezegd en terugbetaald.",
-      "why": "Er had nog nooit iemand de hele route echt doorlopen.",
-      "result": "Werkt van begin tot eind. Zes nieuwe bevindingen (F21 tot F25, D7).",
-      "item_ids": [
-        "F9",
-        "F21",
-        "F22",
-        "F23",
-        "F24"
-      ]
-    },
-    {
-      "date": "2026-10-12",
-      "title": "Feedback Charona over saves en shares",
-      "what": "Top posts en mediakit tonen alleen likes en comments.",
-      "why": "Pro+ belooft saves, shares en bereik per post.",
-      "result": "Bevinding F25, onderzoek klaargezet.",
-      "item_ids": [
-        "F25"
-      ]
-    }
-  ]
+  {
+   "id": "A2",
+   "name": "Bevindingen uit de Pro+-test",
+   "sort": 2,
+   "note": ""
+  },
+  {
+   "id": "M",
+   "name": "Monitoring en advies",
+   "sort": 3,
+   "note": "Na F10, eerst een mockup"
+  },
+  {
+   "id": "R",
+   "name": "Robuustheid",
+   "sort": 4,
+   "note": "Start na F10"
+  },
+  {
+   "id": "B",
+   "name": "Merkenproduct",
+   "sort": 5,
+   "note": "Bouwen pas na F10 en R1 tot R3"
+  },
+  {
+   "id": "C",
+   "name": "Partnerprogramma",
+   "sort": 6,
+   "note": "Bouwen pas na F10 en R1 tot R3"
+  },
+  {
+   "id": "D",
+   "name": "Technisch onderhoud",
+   "sort": 7,
+   "note": ""
+  },
+  {
+   "id": "E",
+   "name": "Nazorg",
+   "sort": 8,
+   "note": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "A1",
+   "phase_id": "A",
+   "title": "Pro+-pakket deel 1: verified data in de export, opruimen na 30 dagen, bewaking",
+   "owner": "M",
+   "status": "done",
+   "priority": 2,
+   "why": "Basis voor Pro+.",
+   "next": "",
+   "waits_for": "",
+   "sort": 1
+  },
+  {
+   "id": "A2",
+   "phase_id": "A",
+   "title": "Pro+-pakket deel 2: InsightIQ-kaart en foutmeldingen in het command center",
+   "owner": "M",
+   "status": "done",
+   "priority": 2,
+   "why": "Basis voor Pro+.",
+   "next": "",
+   "waits_for": "",
+   "sort": 2
+  },
+  {
+   "id": "A3",
+   "phase_id": "A",
+   "title": "Mail aan de creator bij een verlopen koppeling",
+   "owner": "M",
+   "status": "done",
+   "priority": 2,
+   "why": "Creator weet wanneer opnieuw koppelen nodig is.",
+   "next": "",
+   "waits_for": "",
+   "sort": 3
+  },
+  {
+   "id": "A4",
+   "phase_id": "A",
+   "title": "Verwerkersovereenkomst met InsightIQ opvragen, nalezen en tekenen",
+   "owner": "C",
+   "status": "wait",
+   "priority": 2,
+   "why": "Nodig voor de AVG: InsightIQ verwerkt gegevens van onze klanten.",
+   "next": "Mail aan InsightIQ versturen.",
+   "waits_for": "Antwoord van InsightIQ",
+   "sort": 4
+  },
+  {
+   "id": "A5",
+   "phase_id": "A",
+   "title": "Juridische review van de Engelse teksten",
+   "owner": "C",
+   "status": "open",
+   "priority": 2,
+   "why": "Phyllo/InsightIQ en Klaviyo als verwerker, en de bewaartermijnen, moeten kloppen in de privacytekst.",
+   "next": "Review plannen.",
+   "waits_for": "",
+   "sort": 5
+  },
+  {
+   "id": "A6",
+   "phase_id": "A",
+   "title": "Appnaam in het koppelvenster: Sample App wordt Get Creyo",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Klanten moeten zien dat ze aan Get Creyo toestemming geven.",
+   "next": "Nagaan of dit al klaar is: het venster toont al het logo.",
+   "waits_for": "",
+   "sort": 6
+  },
+  {
+   "id": "A7",
+   "phase_id": "A",
+   "title": "Pro+ klaarzetten: productiesleutels, webhook, Stripe-prijs, upgrade-knop",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Voorwaarde om Pro+ te verkopen.",
+   "next": "",
+   "waits_for": "",
+   "sort": 7
+  },
+  {
+   "id": "A8",
+   "phase_id": "A",
+   "title": "Pro+ aanzetten",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Live, verkoop staat aan; koopflowtest afgerond 11 okt.",
+   "next": "",
+   "waits_for": "",
+   "sort": 8
+  },
+  {
+   "id": "F1",
+   "phase_id": "A2",
+   "title": "Koppelvenster geblokkeerd voor TikTok, Instagram en Facebook",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "De beveiligingsregel van andere pagina's bleef gelden na een paginawissel.",
+   "next": "Klaar, live en getest 10 okt.",
+   "waits_for": "",
+   "sort": 9
+  },
+  {
+   "id": "F2",
+   "phase_id": "A2",
+   "title": "Instagram toonde geen verified data meer na opnieuw koppelen",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Ontkoppelen wiste de data; InsightIQ stuurt bij opnieuw koppelen geen data opnieuw.",
+   "next": "Klaar: bij elke koppeling halen we de data zelf op (5134a1f).",
+   "waits_for": "",
+   "sort": 10
+  },
+  {
+   "id": "F3",
+   "phase_id": "A2",
+   "title": "TikTok: shares leeg en lifetime likes niet aangesloten",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Shares: waarschijnlijk te weinig posts binnen (2). Lifetime likes is nooit aangesloten.",
+   "next": "Meenemen bij F25.",
+   "waits_for": "",
+   "sort": 11
+  },
+  {
+   "id": "F4",
+   "phase_id": "A2",
+   "title": "Facebook-filter toont Pro+ en doet niets bij klikken",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Facebook heeft geen gemeten laag; het filter kent alleen gemeten platforms.",
+   "next": "Meenemen in het dashboardvoorstel (F21).",
+   "waits_for": "",
+   "sort": 12
+  },
+  {
+   "id": "F5",
+   "phase_id": "A2",
+   "title": "Label Pro+ in development naast de naam",
+   "owner": "M",
+   "status": "done",
+   "priority": 3,
+   "why": "Label stond er nog terwijl Pro+ verkocht wordt.",
+   "next": "Klaar, live 10 okt.",
+   "waits_for": "",
+   "sort": 13
+  },
+  {
+   "id": "F6",
+   "phase_id": "A2",
+   "title": "Een Pro+-klant moet zijn accounts twee keer koppelen: verified en gemeten",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Twee losse koppelingen. Voorstel: na verified koppelen hetzelfde account automatisch laten meten.",
+   "next": "Bekijken met Charona's account.",
+   "waits_for": "Besluit Mauricio en Charona",
+   "sort": 14
+  },
+  {
+   "id": "F7",
+   "phase_id": "A2",
+   "title": "Betaling van 14,90 op 7 okt op een opgezegd Pro-abonnement van Charona",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Oorzaak nog onbekend; mogelijk terugbetalen.",
+   "next": "Tijdlijn van het abonnement en de webhook-meldingen in Stripe bekijken.",
+   "waits_for": "",
+   "sort": 15
+  },
+  {
+   "id": "F8",
+   "phase_id": "A2",
+   "title": "Prijspagina met Pro+-koopknop en upgrade-venster",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Pro+ verkoopbaar maken.",
+   "next": "Klaar, koopflowtest afgerond 11 okt.",
+   "waits_for": "",
+   "sort": 16
+  },
+  {
+   "id": "F9",
+   "phase_id": "A2",
+   "title": "Upgrade-venster gaf een 500-fout",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Testabonnement uit testmodus en geen foutafhandeling.",
+   "next": "Klaar: nette melding en regel in de error log (e062b24).",
+   "waits_for": "",
+   "sort": 17
+  },
+  {
+   "id": "F10",
+   "phase_id": "A2",
+   "title": "InsightIQ-webhooks afgewezen op de handtekening (13 keer sinds 9 okt)",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "Updates van geverifieerde data kunnen verloren gaan. De ophaalactie bij het koppelen kan dit verbergen.",
+   "next": "Onderzoek: welke webhooks staan bij InsightIQ en met welke sleutel controleren we.",
+   "waits_for": "",
+   "sort": 18
+  },
+  {
+   "id": "F11",
+   "phase_id": "A2",
+   "title": "Inlogwaarschuwingen no_code en exchange_failed op 10 okt",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Verlopen inloglink of een echt inlogprobleem.",
+   "next": "Onderzoeken na F10.",
+   "waits_for": "",
+   "sort": 19
+  },
+  {
+   "id": "F12",
+   "phase_id": "A2",
+   "title": "Ontbrekend label in het command center",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Twee waarschuwingen missing_label op 10 okt.",
+   "next": "Klein, later.",
+   "waits_for": "",
+   "sort": 20
+  },
+  {
+   "id": "F13",
+   "phase_id": "A2",
+   "title": "Productie gebruikt een cache-bucket met staging in de naam",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Mogelijk delen review en productie een cache. Timing bij F19 bleek geen cachefout.",
+   "next": "Uitzoeken met bewijs.",
+   "waits_for": "",
+   "sort": 21
+  },
+  {
+   "id": "F14",
+   "phase_id": "A2",
+   "title": "Free-account: filter Instagram lijkt aanklikbaar maar is het niet",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Bewuste beperking voor Free, maar zonder slot of Pro-label.",
+   "next": "Meenemen in het dashboardvoorstel (F21).",
+   "waits_for": "",
+   "sort": 22
+  },
+  {
+   "id": "F15",
+   "phase_id": "A2",
+   "title": "Stripe Checkout toont Basic abonnement onder Pro",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Nederlandse omschrijving en verkeerde plannaam in Stripe.",
+   "next": "Productomschrijving in Stripe aanpassen, ook Pro+ nakijken.",
+   "waits_for": "",
+   "sort": 23
+  },
+  {
+   "id": "F16",
+   "phase_id": "A2",
+   "title": "Geen iDEAL in de checkout",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "Veel Nederlandse creators hebben geen creditcard.",
+   "next": "Nagaan of iDEAL met SEPA-incasso aan kan voor abonnementen; samen met F17.",
+   "waits_for": "",
+   "sort": 24
+  },
+  {
+   "id": "F17",
+   "phase_id": "A2",
+   "title": "Btw: Stripe berekent geen btw en de factuur toont geen btw-nummer of KvK",
+   "owner": "C",
+   "status": "wait",
+   "priority": 2,
+   "why": "De prijzen zijn inclusief btw. Advies: Stripe Tax Basic.",
+   "next": "Daarna btw-nummer, KvK en Stripe Tax inrichten, samen met F16.",
+   "waits_for": "Bevestiging van Boekhoudoe over KOR, OSS en de drempel",
+   "sort": 25
+  },
+  {
+   "id": "F18",
+   "phase_id": "A2",
+   "title": "Upgrade naar Pro+ faalde door een prijs-ID uit testmodus",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "De Pro+-prijs in Cloudflare kwam uit testmodus.",
+   "next": "Klaar: alle 7 prijzen OK en bewaakt in het command center.",
+   "waits_for": "",
+   "sort": 26
+  },
+  {
+   "id": "F19",
+   "phase_id": "A2",
+   "title": "Na de upgrade toonde het dashboard nog Pro",
+   "owner": "M",
+   "status": "done",
+   "priority": 2,
+   "why": "Het dashboard wachtte op de webhook.",
+   "next": "Klaar: direct vastleggen en welkomstvenster (90c282d).",
+   "waits_for": "",
+   "sort": 27
+  },
+  {
+   "id": "F20",
+   "phase_id": "A2",
+   "title": "Pro+ zonder betalen mogelijk bij een openstaande 3D Secure-betaling",
+   "owner": "M",
+   "status": "done",
+   "priority": 1,
+   "why": "Stripe zette de prijs al om; de webhook gaf dan Pro+.",
+   "next": "Klaar: upgrade pas na betaling (dbc3288).",
+   "waits_for": "",
+   "sort": 28
+  },
+  {
+   "id": "F21",
+   "phase_id": "A2",
+   "title": "Dashboard: zes koppelknoppen, teksten door elkaar en voorbeeldcijfers bij echte klanten",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Echte Pro+-klanten zien verzonnen cijfers. In strijd met de kwaliteitslat.",
+   "next": "Voorstel met mockup: een koppelroute via de Verified-pagina en eerlijke lege vakken.",
+   "waits_for": "",
+   "sort": 29
+  },
+  {
+   "id": "F22",
+   "phase_id": "A2",
+   "title": "Pro+-label is grijs zonder vinkje, Pro is geel met vinkje",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Bewuste keuze uit de tijd dat Pro+ nog niet te koop was.",
+   "next": "Opnieuw beslissen in de mockup van F21.",
+   "waits_for": "",
+   "sort": 30
+  },
+  {
+   "id": "F23",
+   "phase_id": "A2",
+   "title": "Vóór de aankoop melden dat Instagram een creator- of business-account nodig heeft",
+   "owner": "M",
+   "status": "busy",
+   "priority": 1,
+   "why": "Met een persoonlijk account kun je Pro+ kopen maar niets koppelen.",
+   "next": "Bij Claude Code; daarna release met de kwaliteitslat en D7.",
+   "waits_for": "",
+   "sort": 31
+  },
+  {
+   "id": "F24",
+   "phase_id": "A2",
+   "title": "Koppelvenster toont twaalf platforms, waaronder X, Twitch en Instagram drie keer",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Klanten kunnen iets koppelen dat we niet tonen.",
+   "next": "Nagaan in de code en de InsightIQ-instellingen; meenemen bij F21.",
+   "waits_for": "",
+   "sort": 32
+  },
+  {
+   "id": "F25",
+   "phase_id": "A2",
+   "title": "Saves, shares en bereik per post tonen op dashboard en mediakit",
+   "owner": "M",
+   "status": "busy",
+   "priority": 1,
+   "why": "Feedback Charona 12 okt. Pro+ belooft Real reach per post en Saves and shares.",
+   "next": "Onderzoek bij Claude Code: welke cijfers per post komen binnen. Daarna mockup.",
+   "waits_for": "",
+   "sort": 33
+  },
+  {
+   "id": "M0",
+   "phase_id": "M",
+   "title": "Mockup van het issue-overzicht en het detailvenster",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "De error log toont losse regels zonder uitleg; F10 zagen we pas een dag later.",
+   "next": "",
+   "waits_for": "Koopflowtest en F10",
+   "sort": 34
+  },
+  {
+   "id": "M1",
+   "phase_id": "M",
+   "title": "Issues in plaats van regels, met uitleg en een kant-en-klare prompt per foutcode",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Sneller zien wat er mis is en wat je moet doen.",
+   "next": "",
+   "waits_for": "M0 goedgekeurd",
+   "sort": 35
+  },
+  {
+   "id": "M2",
+   "phase_id": "M",
+   "title": "Signalen: een error direct per mail, een dagelijkse samenvatting",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Problemen komen bij ons binnen voordat een klant ze meldt.",
+   "next": "",
+   "waits_for": "M1",
+   "sort": 36
+  },
+  {
+   "id": "M3",
+   "phase_id": "M",
+   "title": "Adviserende agent op het command center",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Dagelijkse duiding van open issues.",
+   "next": "",
+   "waits_for": "M1, M2",
+   "sort": 37
+  },
+  {
+   "id": "R1",
+   "phase_id": "R",
+   "title": "Instellingen automatisch controleren: alle sleutels en ID's, live en test nooit door elkaar",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "Een test-ID in productie blokkeerde Pro+ (F18).",
+   "next": "",
+   "waits_for": "F10",
+   "sort": 38
+  },
+  {
+   "id": "R2",
+   "phase_id": "R",
+   "title": "Geldstromen automatisch testen vóór elke release met Stripe-testkaarten",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "De koopflow was nooit van begin tot eind getest; F20 had zo nooit live gestaan.",
+   "next": "",
+   "waits_for": "R1",
+   "sort": 39
+  },
+  {
+   "id": "R3",
+   "phase_id": "R",
+   "title": "Nachtelijke vergelijking van Stripe, InsightIQ en onze database",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "Vangt elke gemiste webhook op.",
+   "next": "",
+   "waits_for": "R1",
+   "sort": 40
+  },
+  {
+   "id": "R4",
+   "phase_id": "R",
+   "title": "Waarschuwen in plaats van alleen loggen (zelfde als M2)",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Zelfde doel als M2.",
+   "next": "",
+   "waits_for": "M1",
+   "sort": 41
+  },
+  {
+   "id": "B1",
+   "phase_id": "B",
+   "title": "Gesprekshandleiding met de drie vragen en een vaste manier van vastleggen",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Voorbereiding op de gesprekken met merken.",
+   "next": "Kan nu.",
+   "waits_for": "",
+   "sort": 42
+  },
+  {
+   "id": "B2",
+   "phase_id": "B",
+   "title": "Vijf gesprekken met merken die we al kennen",
+   "owner": "C",
+   "status": "open",
+   "priority": 2,
+   "why": "Bewijs ophalen voordat we het merkenproduct bouwen.",
+   "next": "",
+   "waits_for": "B1",
+   "sort": 43
+  },
+  {
+   "id": "B3",
+   "phase_id": "B",
+   "title": "Go of no-go op basis van de antwoorden",
+   "owner": "M",
+   "status": "wait",
+   "priority": 2,
+   "why": "Samen beslissen.",
+   "next": "",
+   "waits_for": "B2",
+   "sort": 44
+  },
+  {
+   "id": "B4",
+   "phase_id": "B",
+   "title": "Mockup van stap 1: de knop op de kit en de mail aan de creator",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Merken vragen creators om verificatie.",
+   "next": "Kan nu.",
+   "waits_for": "",
+   "sort": 45
+  },
+  {
+   "id": "B5",
+   "phase_id": "B",
+   "title": "Stap 1 bouwen: merken vragen creators om verificatie",
+   "owner": "M",
+   "status": "wait",
+   "priority": 2,
+   "why": "Merken willen zeker weten dat de cijfers van een creator kloppen. Dit is de eerste stap van het merkenproduct.",
+   "next": "",
+   "waits_for": "B3 (go), F10, R1 tot R3",
+   "sort": 46
+  },
+  {
+   "id": "B6",
+   "phase_id": "B",
+   "title": "Stap 2: de merkomgeving (shortlist, vergelijken, doelgroepmatch)",
+   "owner": "M",
+   "status": "wait",
+   "priority": 3,
+   "why": "Merken willen creators naast elkaar zetten en zien of hun publiek bij het merk past.",
+   "next": "",
+   "waits_for": "Resultaat van stap 1",
+   "sort": 47
+  },
+  {
+   "id": "B7",
+   "phase_id": "B",
+   "title": "Stap 3: campagnerapport en omgeving voor bureaus",
+   "owner": "M",
+   "status": "wait",
+   "priority": 3,
+   "why": "Na een campagne willen merken en bureaus zien wat het opleverde.",
+   "next": "",
+   "waits_for": "Stap 2",
+   "sort": 48
+  },
+  {
+   "id": "C1",
+   "phase_id": "C",
+   "title": "Akkoord op het partnervoorstel (10% korting, 20% commissie, 12 maanden)",
+   "owner": "C",
+   "status": "open",
+   "priority": 2,
+   "why": "Startpunt voor het partnerprogramma.",
+   "next": "",
+   "waits_for": "",
+   "sort": 49
+  },
+  {
+   "id": "C2",
+   "phase_id": "C",
+   "title": "Twee of drie eerste partners kiezen",
+   "owner": "C",
+   "status": "wait",
+   "priority": 2,
+   "why": "Met een paar partners testen we het partnerprogramma voordat we het groter maken.",
+   "next": "",
+   "waits_for": "C1",
+   "sort": 50
+  },
+  {
+   "id": "C3",
+   "phase_id": "C",
+   "title": "Eigen kortingscode per partner in Stripe",
+   "owner": "M",
+   "status": "wait",
+   "priority": 2,
+   "why": "Zo zien we per partner hoeveel klanten hij aanbrengt.",
+   "next": "",
+   "waits_for": "C2",
+   "sort": 51
+  },
+  {
+   "id": "C4",
+   "phase_id": "C",
+   "title": "Maandelijkse uitbetaling, facturen en btw inrichten met Boekhoudoe",
+   "owner": "C",
+   "status": "wait",
+   "priority": 2,
+   "why": "Partners moeten correct en op tijd betaald worden, met de juiste facturen.",
+   "next": "",
+   "waits_for": "C1",
+   "sort": 52
+  },
+  {
+   "id": "C5",
+   "phase_id": "C",
+   "title": "Proef van drie maanden, daarna stoppen, doorgaan of opschalen",
+   "owner": "M",
+   "status": "wait",
+   "priority": 3,
+   "why": "Samen beslissen.",
+   "next": "",
+   "waits_for": "C3, C4",
+   "sort": 53
+  },
+  {
+   "id": "D1",
+   "phase_id": "D",
+   "title": "Grote Dependabot-updates, één per keer: TypeScript 7, vitest 5, eslint 10",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Bijblijven zonder grote sprongen.",
+   "next": "",
+   "waits_for": "",
+   "sort": 54
+  },
+  {
+   "id": "D2",
+   "phase_id": "D",
+   "title": "Platformfilter op de kit sneller maken",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Wisselen tussen platforms op de mediakit voelt nu traag.",
+   "next": "",
+   "waits_for": "",
+   "sort": 55
+  },
+  {
+   "id": "D3",
+   "phase_id": "D",
+   "title": "Omschrijving van de source-map-js-fix in DECISIONS.md rechtzetten",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "In ons logboek met technische keuzes staat een fout. Dat moet kloppen voor wie het later leest.",
+   "next": "",
+   "waits_for": "",
+   "sort": 56
+  },
+  {
+   "id": "D4",
+   "phase_id": "D",
+   "title": "De vijf hoge meldingen uit npm audit uitzoeken",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Er zijn vijf waarschuwingen over lekken in onderdelen die we gebruiken. We moeten weten of ze ons raken.",
+   "next": "",
+   "waits_for": "",
+   "sort": 57
+  },
+  {
+   "id": "D5",
+   "phase_id": "D",
+   "title": "Telling van de staging-limiet op de InsightIQ-kaart gelijktrekken",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Twee tellingen van dezelfde limiet geven een ander getal. Eén getal voorkomt verwarring.",
+   "next": "",
+   "waits_for": "",
+   "sort": 58
+  },
+  {
+   "id": "D7",
+   "phase_id": "D",
+   "title": "Instabiele test: klok vastzetten in de webhook-test",
+   "owner": "M",
+   "status": "busy",
+   "priority": 2,
+   "why": "Faalde soms op 1 milliseconde; ondermijnt het vertrouwen in de controle.",
+   "next": "Bij Claude Code, samen met F23.",
+   "waits_for": "",
+   "sort": 59
+  },
+  {
+   "id": "E1",
+   "phase_id": "E",
+   "title": "Hersteloefening: de database terugzetten volgens het runbook",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Weten dat een back-up echt werkt.",
+   "next": "",
+   "waits_for": "",
+   "sort": 60
+  },
+  {
+   "id": "E2",
+   "phase_id": "E",
+   "title": "Beveiligingsaudit: toegang tussen klanten, opslag, sleutels in git, aanvalstest, headers",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Voordat we groeien, controleren we of klanten nooit bij elkaars gegevens kunnen.",
+   "next": "",
+   "waits_for": "",
+   "sort": 61
+  },
+  {
+   "id": "E3",
+   "phase_id": "E",
+   "title": "Tweestapsverificatie op alle beheeraccounts",
+   "owner": "M",
+   "status": "open",
+   "priority": 1,
+   "why": "Supabase, Stripe, Cloudflare, GitHub, Apify, InsightIQ, Resend, Klaviyo. Mauricio en Charona.",
+   "next": "",
+   "waits_for": "",
+   "sort": 62
+  },
+  {
+   "id": "E4",
+   "phase_id": "E",
+   "title": "Bescherming op de tabel users uitbreiden met het plan-veld, plus een test",
+   "owner": "M",
+   "status": "open",
+   "priority": 2,
+   "why": "Een klant mag zijn eigen abonnement nooit zelf kunnen aanpassen. Dat willen we afdwingen en testen.",
+   "next": "",
+   "waits_for": "",
+   "sort": 63
+  },
+  {
+   "id": "E5",
+   "phase_id": "E",
+   "title": "Statuspagina, browsertests, RLS voor het merkenproduct, documentatieronde, middleware naar proxy",
+   "owner": "M",
+   "status": "open",
+   "priority": 3,
+   "why": "Kleinere verbeteringen die de tool betrouwbaarder maken als er meer klanten zijn.",
+   "next": "",
+   "waits_for": "",
+   "sort": 64
+  }
+ ],
+ "log": [
+  {
+   "date": "2026-09-29",
+   "title": "Verified laag live",
+   "what": "Doelgroepdata in dashboard en mediakit, met bewezen isolatie tussen klanten.",
+   "why": "De kern van Pro+.",
+   "result": "Live."
+  },
+  {
+   "date": "2026-09-30",
+   "title": "Mediakit ronde 1 en 2 en reparaties",
+   "what": "Elk getal hooguit twee keer, geen gecombineerd percentage, top posts en verified per platform. Engagement rate en thumbnails gerepareerd.",
+   "why": "Eerlijke en leesbare kit.",
+   "result": "Live."
+  },
+  {
+   "date": "2026-10-02",
+   "title": "Dashboard per platform en Charona op Pro+",
+   "what": "Engagement per platform op het dashboard. Charona kreeg gratis Pro+ zonder abonnement.",
+   "why": "Demo's voor merken.",
+   "result": "Live."
+  },
+  {
+   "date": "2026-10-07",
+   "title": "Pro+-pakket en beveiligingsupdates",
+   "what": "Verified data in de export, opruimen na 30 dagen, InsightIQ-kaart, mail bij verlopen koppeling. Next.js en andere pakketten gepatcht.",
+   "why": "Pro+ klaarmaken en bekende lekken dichten.",
+   "result": "Live.",
+   "item_ids": [
+    "A1",
+    "A2",
+    "A3"
+   ]
+  },
+  {
+   "date": "2026-10-09",
+   "title": "Pro+ live",
+   "what": "InsightIQ-productiesleutels, verkoop aangezet.",
+   "why": "Charona wil Pro+ gaan verkopen en demonstreren.",
+   "result": "Pro+ te koop.",
+   "item_ids": [
+    "A7",
+    "A8"
+   ]
+  },
+  {
+   "date": "2026-10-10",
+   "title": "Koppelen hersteld",
+   "what": "Het koppelvenster werd geblokkeerd en opnieuw koppelen gaf geen data. Beide opgelost, data van Charona teruggehaald.",
+   "why": "Charona kon Instagram en TikTok niet koppelen.",
+   "result": "Instagram weer 1 profiel, 1 doelgroep, 37 posts.",
+   "item_ids": [
+    "F1",
+    "F2"
+   ]
+  },
+  {
+   "date": "2026-10-10",
+   "title": "Kwaliteitslat vastgesteld",
+   "what": "Acht punten waar elke wijziging aan voldoet, ook vastgelegd voor Claude Code.",
+   "why": "State of the art, niets minder.",
+   "result": "Claude Code meldt nu zelf wat het buiten de opdracht tegenkomt."
+  },
+  {
+   "date": "2026-10-10",
+   "title": "Upgrade naar Pro+ werkend en veilig",
+   "what": "Testprijs in productie vervangen, prijzen worden bewaakt, upgrade direct vastgelegd met welkomstvenster, Pro+ pas na betaling.",
+   "why": "Niemand kon upgraden, en er was een manier om Pro+ zonder betalen te krijgen.",
+   "result": "Live: alle 7 prijzen OK.",
+   "item_ids": [
+    "F18",
+    "F19",
+    "F20"
+   ]
+  },
+  {
+   "date": "2026-10-11",
+   "title": "Koopflowtest afgerond",
+   "what": "Met een testaccount: Pro gekocht, geüpgraded naar Pro+, opgezegd en terugbetaald.",
+   "why": "Er had nog nooit iemand de hele route echt doorlopen.",
+   "result": "Werkt van begin tot eind. Zes nieuwe bevindingen (F21 tot F25, D7).",
+   "item_ids": [
+    "F9",
+    "F21",
+    "F22",
+    "F23",
+    "F24"
+   ]
+  },
+  {
+   "date": "2026-10-12",
+   "title": "Feedback Charona over saves en shares",
+   "what": "Top posts en mediakit tonen alleen likes en comments.",
+   "why": "Pro+ belooft saves, shares en bereik per post.",
+   "result": "Bevinding F25, onderzoek klaargezet.",
+   "item_ids": [
+    "F25"
+   ]
+  }
+ ]
 }

@@ -24,7 +24,7 @@ node test/smoke.local.mjs       # end-to-end tegen de lokale Worker
 
 ## Eerste keer inrichten in Cloudflare
 
-1. **D1:** maak database `creyo-projecttool`, zet de Database ID in `wrangler.toml`. Open de Console van de database en voer `migrations/0001_init.sql` uit.
+1. **D1:** maak database `creyo-projecttool`, zet de Database ID in `wrangler.toml`. Open de Console van de database en voer de bestanden in `migrations/` op volgorde uit.
 2. **R2:** maak bucket `creyo-projecttool-files`.
 3. **Access:** maak een self-hosted application voor het adres, met een policy die alleen de e-mailadressen uit `PEOPLE` toelaat, inloggen met een eenmalige code. Zet de team domain en de Application Audience (AUD) in `wrangler.toml`.
 4. **Worker:** Workers, Create, Import a repository, kies deze repository. Daarna Settings, Domains & Routes, het eigen adres toevoegen.
@@ -33,3 +33,11 @@ node test/smoke.local.mjs       # end-to-end tegen de lokale Worker
 ## Een update van Claude
 
 Een update is een JSON-blok met `"format": "creyo-update/1"`. Zie `src/update.js` voor alle velden en grenzen.
+
+- Een nieuwe taak heeft altijd een `why` in gewone taal.
+- Verandert de status, de eigenaar, de prioriteit of de fase van een taak, dan is `reason` verplicht: waarom, in gewone taal. Het komt in de geschiedenis van de taak ("Wat er veranderde en waarom").
+- Een logregel kan fasen krijgen (`phase_ids`) en een bestaande regel kan worden aangevuld met zijn `id`.
+
+## Fasen
+
+Klik op een fase in het Overzicht (of op de kop van een fase bij Taken) voor wat er nog moet gebeuren, wat al klaar is en het logboek van die fase.
