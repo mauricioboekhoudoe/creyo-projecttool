@@ -50,7 +50,9 @@
       <form class="card" id="fbForm" novalidate>
         <h2>Nieuwe feedback</h2>
         <label for="fbText">Wat zag je?</label>
-        <textarea id="fbText" rows="4" required placeholder="Bijvoorbeeld: in de mediakit mis ik de saves per post"></textarea>
+        <textarea id="fbText" rows="4" required placeholder="Bijvoorbeeld: in de mediakit mis ik de saves per post" aria-describedby="fbSafe"></textarea>
+        <p class="hint" id="fbSafe">Zet nooit wachtwoorden, inlogcodes of sleutels in feedback. Die horen alleen in de app zelf.</p>
+        <p class="warn" id="fbWarn" role="alert" hidden>Het lijkt erop dat hier een wachtwoord of sleutel in staat. Haal het eruit, of klik nog een keer op Versturen als het echt geen wachtwoord is.</p>
         <label for="fbFor">Voor wie?</label>
         <select id="fbFor"></select>
         <span class="lbl-like">Screenshots</span>

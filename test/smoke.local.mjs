@@ -136,6 +136,24 @@ s = await call("/api/state");
 assert.ok(!s.data.items.find((i) => i.id === "F26")); assert.equal(s.data.feedback[0].status, "converted");
 step("rollback restores the plan, keeps people's feedback");
 
+r = await call("/api/feedback", { method: "POST", as: MEMBER, json: { text: "inlog: geheim123", for_owner: "M" } });
+const secretFb = r.data.id;
+r = await call("/api/feedback", { method: "POST", json: { text: "van Mauricio" } });
+const adminFb = r.data.id;
+r = await call(`/api/feedback/${adminFb}`, { method: "DELETE", as: MEMBER });
+assert.equal(r.status, 403); step("a member cannot delete someone else's feedback");
+r = await call(`/api/feedback/${secretFb}`, { method: "DELETE", as: MEMBER });
+assert.equal(r.status, 200);
+s = await call("/api/state");
+assert.ok(!s.data.feedback.some((f) => f.id === secretFb));
+r = await call("/api/admin/export");
+assert.ok(!JSON.stringify(r.data).includes("geheim123"));
+step("a member deletes their own feedback; the text is gone from the export too");
+r = await call("/api/comments", { method: "POST", as: MEMBER, json: { target_type: "item", target_id: "F10", text: "password: x" } });
+const cid = r.data.id;
+r = await call(`/api/comments/${cid}`, { method: "DELETE" });
+assert.equal(r.status, 200); step("an admin can delete a comment");
+
 const page = await fetch(BASE + "/", { headers: { "X-Dev-Email": ADMIN } });
 assert.equal(page.status, 200); assert.ok(page.headers.get("content-security-policy").includes("script-src 'self'"));
 step("page served with CSP");

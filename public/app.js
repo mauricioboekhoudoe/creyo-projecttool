@@ -16,6 +16,9 @@ let openPhaseId = null; // phase panel open (or the phase an open item was reach
 let pendingPatch = null; // status/owner change waiting for "Opslaan" with a reason
 let pendingFiles = []; // for the feedback form
 let checkedText = null; // text that passed "Controleren"
+let secretWarnedFor = null; // feedback text the "looks like a password" warning was shown for
+// Words and shapes that usually mean a password or key was pasted.
+const SECRET_HINT = /(wachtwoord|password|passwd|\binlog\b|inloggegevens|api[ _-]?key|secret|token|sk_(live|test)_|pk_(live|test)_|re_[A-Za-z0-9]{8,}|-----BEGIN)/i;
 
 // ---------- api ----------
 async function api(path, opts = {}) {
@@ -50,6 +53,7 @@ const ERR_NL = {
   unsupported_type: "Alleen afbeeldingen (png, jpg, webp, gif) en pdf.",
   text_required: "Schrijf eerst iets.",
   server_error: "Er ging iets mis op de server. Probeer het opnieuw.",
+  forbidden: "Dit mag alleen degene die het schreef, of een beheerder.",
 };
 const errText = (e) => ERR_NL[e.message] || e.message || "Er ging iets mis.";
 
@@ -102,9 +106,14 @@ function shotsHtml(list, canDelete) {
 }
 const canDeleteFile = (f) => S.me.admin || f.created_by === S.me.key;
 
+const canDeleteOwn = (createdBy) => S.me.admin || createdBy === S.me.key;
 function commentsHtml(type, id) {
   const list = commentsFor(type, id)
-    .map((c) => `<div class="cmt">${whoChip(c.created_by)}<div><b>${esc(pName(c.created_by))}</b> <span class="small-muted">${esc(fmt(c.created_at))}</span><p>${esc(c.text)}</p></div></div>`)
+    .map(
+      (c) => `<div class="cmt">${whoChip(c.created_by)}<div><b>${esc(pName(c.created_by))}</b> <span class="small-muted">${esc(fmt(c.created_at))}</span>${
+        canDeleteOwn(c.created_by) ? ` <button class="linkbtn" type="button" data-del-comment="${c.id}">Verwijderen</button>` : ""
+      }<p>${esc(c.text)}</p></div></div>`,
+    )
     .join("");
   const fid = `c-${type}-${esc(id)}`;
   return `<div class="comments">${list}</div>
@@ -213,17 +222,20 @@ function renderFeedback() {
   $("#fbList").innerHTML =
     S.feedback
       .map((f) => {
+        const del = canDeleteOwn(f.created_by) ? `<button class="btn small danger" type="button" data-del-fb="${f.id}">Verwijderen</button>` : "";
         const admin = S.me.admin
           ? `<div class="act left">
               <button class="btn small" type="button" data-fb-status="converted" data-fb="${f.id}">Omgezet naar taak</button>
               <button class="btn small" type="button" data-fb-status="closed" data-fb="${f.id}">Afsluiten</button>
               ${f.status !== "new" ? `<button class="btn small" type="button" data-fb-status="new" data-fb="${f.id}">Weer open</button>` : ""}
+              ${del}
             </div>`
-          : "";
+          : del ? `<div class="act left">${del}</div>` : "";
         return `<div class="fb" id="fb-${f.id}">
           <div class="fb-h">${whoChip(f.created_by)}<b>${esc(pName(f.created_by))}</b><span class="small-muted">${esc(fmt(f.created_at))}${f.for_owner ? " · voor " + esc(pName(f.for_owner)) : ""}</span>${pill(FB_STATUS, f.status)}${f.item_id ? `<span class="pill p-open">${esc(f.item_id)}</span>` : ""}</div>
           <p>${esc(f.text)}</p>
           <div class="shots">${shotsHtml(filesFor("feedback", f.id), canDeleteFile)}</div>
+
           ${admin}
           ${commentsHtml("feedback", f.id)}
         </div>`;
@@ -425,6 +437,12 @@ async function sendFeedback(ev) {
   ev.preventDefault();
   const text = $("#fbText").value.trim();
   if (!text) return say(ERR_NL.text_required, true), $("#fbText").focus();
+  if (SECRET_HINT.test(text) && secretWarnedFor !== text) {
+    secretWarnedFor = text;
+    $("#fbWarn").hidden = false;
+    return $("#fbText").focus();
+  }
+  $("#fbWarn").hidden = true;
   const btn = $("#fbSend");
   btn.disabled = true;
   say("Versturen...");
@@ -466,6 +484,22 @@ async function deleteFile(id, btn) {
   try {
     await api(`/api/files/${encodeURIComponent(id)}`, { method: "DELETE" });
     say("Verwijderd.");
+    await load(true);
+  } catch (e) {
+    say(errText(e), true);
+  }
+}
+
+// Two clicks: the first asks "Zeker weten?".
+async function removeThing(path, btn, done) {
+  if (btn.dataset.sure !== "1") {
+    btn.dataset.sure = "1";
+    btn.textContent = "Zeker weten? Klik nog een keer";
+    return;
+  }
+  try {
+    await api(path, { method: "DELETE" });
+    say(done);
     await load(true);
   } catch (e) {
     say(errText(e), true);
@@ -631,6 +665,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (t.id === "ov") { closeDrawer(); return closeAdmin(); }
     const unp = t.closest("[data-unpend]"); if (unp) { const p = pendingFiles.splice(Number(unp.dataset.unpend), 1)[0]; if (p?.url) URL.revokeObjectURL(p.url); return renderFeedback(); }
     const del = t.closest("[data-del-file]"); if (del) return deleteFile(del.dataset.delFile, del);
+    const dfb = t.closest("[data-del-fb]"); if (dfb) return removeThing(`/api/feedback/${dfb.dataset.delFb}`, dfb, "Feedback verwijderd.");
+    const dcm = t.closest("[data-del-comment]"); if (dcm) return removeThing(`/api/comments/${dcm.dataset.delComment}`, dcm, "Reactie verwijderd.");
     const fbs = t.closest("[data-fb-status]");
     if (fbs) return api(`/api/feedback/${fbs.dataset.fb}`, { method: "PATCH", json: { status: fbs.dataset.fbStatus } }).then(() => load(true)).catch((er) => say(errText(er), true));
     const rs = t.closest("[data-restore]"); if (rs) return restoreVersion(Number(rs.dataset.restore), rs);

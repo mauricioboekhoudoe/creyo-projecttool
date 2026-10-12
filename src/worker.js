@@ -273,6 +273,36 @@ async function patchFeedback(env, user, id, body) {
   return json({ ok: true });
 }
 
+// People can remove their own feedback (for example when a password slipped in). Admins can remove any.
+async function deleteFeedback(env, user, id) {
+  const fb = await first(env, "SELECT * FROM feedback WHERE id = ?", id);
+  if (!fb) return fail(404, "not_found");
+  if (!user.admin && fb.created_by !== user.key) return fail(403, "forbidden");
+  const files = await all(env, "SELECT id FROM files WHERE target_type = 'feedback' AND target_id = ?", String(id));
+  for (const f of files) await env.FILES.delete(f.id);
+  await env.DB.batch([
+    env.DB.prepare("DELETE FROM files WHERE target_type = 'feedback' AND target_id = ?").bind(String(id)),
+    env.DB.prepare("DELETE FROM comments WHERE target_type = 'feedback' AND target_id = ?").bind(String(id)),
+    env.DB.prepare("DELETE FROM feedback WHERE id = ?").bind(id),
+    // The text is not copied into the change log on purpose.
+    env.DB.prepare("UPDATE changes SET summary = '(verwijderd)' WHERE kind = 'feedback_new' AND ref = ?").bind(String(id)),
+    change(env, user.key, "feedback_deleted", id, "feedback verwijderd"),
+  ]);
+  return json({ ok: true });
+}
+
+async function deleteComment(env, user, id) {
+  const c = await first(env, "SELECT * FROM comments WHERE id = ?", id);
+  if (!c) return fail(404, "not_found");
+  if (!user.admin && c.created_by !== user.key) return fail(403, "forbidden");
+  await env.DB.batch([
+    env.DB.prepare("DELETE FROM comments WHERE id = ?").bind(id),
+    env.DB.prepare("UPDATE changes SET summary = '(verwijderd)' WHERE kind = 'comment_new' AND ref = ? AND summary = ?").bind(`${c.target_type}:${c.target_id}`, c.text.slice(0, 160)),
+    change(env, user.key, "comment_deleted", `${c.target_type}:${c.target_id}`, "reactie verwijderd"),
+  ]);
+  return json({ ok: true });
+}
+
 async function targetExists(env, type, id) {
   if (type === "item") return !!(await first(env, "SELECT id FROM items WHERE id = ?", id));
   if (type === "feedback") return !!(await first(env, "SELECT id FROM feedback WHERE id = ?", Number(id)));
@@ -475,6 +505,8 @@ async function route(request, env, user) {
   if ((r = p.match(/^\/api\/items\/([A-Za-z0-9_-]{1,20})$/)) && m === "PATCH") return patchItem(env, user, r[1], await readBody(request));
   if (p === "/api/feedback" && m === "POST") return postFeedback(env, user, await readBody(request));
   if ((r = p.match(/^\/api\/feedback\/(\d+)$/)) && m === "PATCH") return patchFeedback(env, user, Number(r[1]), await readBody(request));
+  if ((r = p.match(/^\/api\/feedback\/(\d+)$/)) && m === "DELETE") return deleteFeedback(env, user, Number(r[1]));
+  if ((r = p.match(/^\/api\/comments\/(\d+)$/)) && m === "DELETE") return deleteComment(env, user, Number(r[1]));
   if (p === "/api/comments" && m === "POST") return postComment(env, user, await readBody(request));
   if (p === "/api/files" && m === "POST") return postFile(env, user, request, url);
   if ((r = p.match(/^\/api\/files\/([0-9a-f-]{36})$/))) {
