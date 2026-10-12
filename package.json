@@ -1,0 +1,16 @@
+{
+  "name": "creyo-projecttool",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Shared project tool for Get Creyo (Mauricio and Charona), behind Cloudflare Access.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "test": "node --test test/*.test.js",
+    "db:migrate:local": "wrangler d1 migrations apply creyo-projecttool --local",
+    "db:migrate:remote": "wrangler d1 migrations apply creyo-projecttool --remote"
+  },
+  "devDependencies": {
+    "wrangler": "4.140.0"
+  }
+}

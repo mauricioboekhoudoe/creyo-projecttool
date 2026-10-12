@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Creyo projecttool</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <b>get creyo</b><small>projecttool</small>
+  <div class="sp">
+    <span id="me" class="me"></span>
+    <button class="btn on-dark" type="button" id="admBtn" hidden>Beheer</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist" aria-label="Onderdelen">
+    <button class="tab" role="tab" id="t-overzicht" aria-controls="v-overzicht" aria-selected="true">Overzicht</button>
+    <button class="tab" role="tab" id="t-taken" aria-controls="v-taken" aria-selected="false">Taken<span class="n" id="n-taken"></span></button>
+    <button class="tab" role="tab" id="t-feedback" aria-controls="v-feedback" aria-selected="false">Feedback<span class="n" id="n-feedback"></span></button>
+    <button class="tab" role="tab" id="t-logboek" aria-controls="v-logboek" aria-selected="false">Logboek</button>
+  </nav>
+
+  <p class="status-line" id="status" role="status" aria-live="polite"></p>
+
+  <section id="v-overzicht" role="tabpanel" aria-labelledby="t-overzicht">
+    <h1 id="headline">Get Creyo</h1>
+    <p class="sub" id="goal">Bezig met laden...</p>
+    <div class="grid" id="ov-cards"></div>
+    <h2>Fasen</h2>
+    <div class="grid" id="ov-phases"></div>
+  </section>
+
+  <section id="v-taken" role="tabpanel" aria-labelledby="t-taken" hidden>
+    <h1>Taken en bevindingen</h1>
+    <p class="sub">Klik op een taak voor het waarom, de volgende stap, screenshots en reacties.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filter"></div>
+    <div id="tasks"></div>
+  </section>
+
+  <section id="v-feedback" role="tabpanel" aria-labelledby="t-feedback" hidden>
+    <h1>Feedback</h1>
+    <p class="sub">Wat je opvalt, met een screenshot. Claude leest het mee bij de volgende sync en maakt er een taak van.</p>
+    <div class="two">
+      <form class="card" id="fbForm" novalidate>
+        <h2>Nieuwe feedback</h2>
+        <label for="fbText">Wat zag je?</label>
+        <textarea id="fbText" rows="4" required placeholder="Bijvoorbeeld: in de mediakit mis ik de saves per post"></textarea>
+        <label for="fbFor">Voor wie?</label>
+        <select id="fbFor"></select>
+        <span class="lbl-like">Screenshots</span>
+        <div class="drop" id="fbDrop" tabindex="0" role="button" aria-label="Screenshot toevoegen: plakken, slepen of klikken om te kiezen">
+          Plak een screenshot (Cmd+V of Ctrl+V), sleep hem hierheen, of klik om te kiezen
+        </div>
+        <input type="file" id="fbFile" accept="image/png,image/jpeg,image/webp,image/gif,application/pdf" multiple hidden>
+        <div class="shots" id="fbPending"></div>
+        <div class="act"><button class="btn pri" type="submit" id="fbSend">Versturen</button></div>
+      </form>
+      <div class="card">
+        <h2>Binnengekomen</h2>
+        <div id="fbList" class="fb-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="v-logboek" role="tabpanel" aria-labelledby="t-logboek" hidden>
+    <h1>Logboek</h1>
+    <p class="sub">Wat we deden, waarom, en wat het opleverde. Nieuwste bovenaan.</p>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+
+<div class="ov" id="ov" hidden></div>
+<aside class="dr" id="dr" hidden aria-label="Taakdetails"></aside>
+
+<div class="mod" id="adm" hidden role="dialog" aria-modal="true" aria-labelledby="admT">
+  <div class="mbox">
+    <h2 id="admT">Beheer: sync met Claude</h2>
+    <p class="muted">Alleen zichtbaar voor beheerders.</p>
+    <div class="note" id="admLast"></div>
+    <div class="act left"><button class="btn pri" type="button" id="copyBtn">Kopieer voor Claude</button></div>
+    <textarea id="copyFallback" rows="5" readonly hidden aria-label="Export voor Claude"></textarea>
+    <label for="fromClaude">Update van Claude plakken</label>
+    <textarea id="fromClaude" rows="6" placeholder='{"format": "creyo-update/1", ...}'></textarea>
+    <div class="act left">
+      <button class="btn" type="button" id="checkBtn">Controleren</button>
+      <button class="btn pri" type="button" id="applyBtn" disabled>Toepassen</button>
+    </div>
+    <div id="checkOut" class="check" aria-live="polite"></div>
+    <h3>Versies</h3>
+    <div id="versions" class="versions"></div>
+    <div class="act"><button class="btn" type="button" id="admClose">Sluiten</button></div>
+  </div>
+</div>
+</body>
+</html>

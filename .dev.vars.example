@@ -1,0 +1,2 @@
+DEV_AUTH_EMAIL=mauricio@boekhoudoe.nl
+PEOPLE={"M":{"name":"Mauricio","email":"mauricio@boekhoudoe.nl","admin":true},"C":{"name":"Charona","email":"charona@example.test","admin":false}}
