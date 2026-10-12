@@ -24,8 +24,8 @@ bucket_name = "creyo-projecttool-files"
 
 [vars]
 # Cloudflare Zero Trust team domain, e.g. "boekhoudoe.cloudflareaccess.com"
-ACCESS_TEAM_DOMAIN = "REPLACE_WITH_TEAM_DOMAIN"
+ACCESS_TEAM_DOMAIN = "falling-grass-6441.cloudflareaccess.com"
 # Application Audience (AUD) tag of the Access application for this hostname
-ACCESS_AUD = "REPLACE_WITH_ACCESS_AUD"
+ACCESS_AUD = "1167ce54d830474fd26782a7720b430fab7ab5bb72ce1caeab0780777a17f60a"
 # People who may use the tool. "admin": true may export, apply updates and roll back.
-PEOPLE = '{"M":{"name":"Mauricio","email":"mauricio@boekhoudoe.nl","admin":true},"C":{"name":"Charona","email":"REPLACE_WITH_CHARONA_EMAIL","admin":false}}'
+PEOPLE = '{"M":{"name":"Mauricio","email":"mauricio@boekhoudoe.nl","admin":true},"C":{"name":"Charona","email":"charona@luzyl.com","admin":false}}'
