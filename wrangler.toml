@@ -28,4 +28,4 @@ ACCESS_TEAM_DOMAIN = "falling-grass-6441.cloudflareaccess.com"
 # Application Audience (AUD) tag of the Access application for this hostname
 ACCESS_AUD = "1167ce54d830474fd26782a7720b430fab7ab5bb72ce1caeab0780777a17f60a"
 # People who may use the tool. "admin": true may export, apply updates and roll back.
-PEOPLE = '{"M":{"name":"Mauricio","email":"mauricio@boekhoudoe.nl","admin":true},"C":{"name":"Charona","email":"charona@luzyl.com","admin":false}}'
+PEOPLE = '{"M":{"name":"Mauricio","email":"mauricio@boekhoudoe.nl","admin":true},"C":{"name":"Charona","email":"info@getcreyo.com","admin":false}}'
